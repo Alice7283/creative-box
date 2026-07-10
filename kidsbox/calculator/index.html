@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>兒童慶生派對 成本與利潤計算機</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#3a2e2a;--cream:#fbf6ee;--card:#ffffff;
+    --berry:#e85d75;--grape:#7b6cc4;--mint:#3aa98c;--sun:#f2a73b;
+    --line:#ece3d6;--muted:#8a7d72;--good:#2f8f6f;--bad:#c8455d;
+    --shadow:0 8px 30px rgba(58,46,42,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Noto Sans TC',sans-serif;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(242,167,59,.10), transparent 30%),
+      radial-gradient(circle at 88% 4%, rgba(123,108,196,.10), transparent 28%),
+      var(--cream);
+    color:var(--ink);line-height:1.6;padding:28px 16px 80px;
+  }
+  .portal-back{position:fixed;left:18px;top:18px;z-index:20;color:var(--ink);background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:999px;padding:8px 13px;text-decoration:none;font-size:.8rem;font-weight:700;box-shadow:var(--shadow)}
+  .wrap{max-width:920px;margin:0 auto}
+  header{text-align:center;margin-bottom:8px}
+  .eyebrow{font-family:'Baloo 2';font-weight:600;letter-spacing:.18em;color:var(--berry);font-size:.82rem;text-transform:uppercase}
+  h1{font-family:'Baloo 2';font-weight:800;font-size:clamp(1.9rem,5vw,2.8rem);color:var(--ink);line-height:1.1;margin:.15em 0 .1em}
+  h1 .dot{color:var(--berry)}
+  .sub{color:var(--muted);font-size:.95rem;max-width:560px;margin:0 auto}
+  .confetti{font-size:1.3rem;letter-spacing:.3em;margin-top:6px}
+  .memo-bar{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:12px;flex-wrap:wrap}
+  .memo-hint{font-size:.78rem;color:var(--mint);font-weight:500}
+  .reset-btn{font-family:'Noto Sans TC',sans-serif;font-size:.78rem;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 13px;cursor:pointer;transition:all .15s}
+  .reset-btn:hover{color:var(--bad);border-color:var(--bad)}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:28px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+
+  .card{background:var(--card);border-radius:20px;padding:22px 22px 18px;box-shadow:var(--shadow);border:1px solid var(--line)}
+  .card h2{font-family:'Baloo 2';font-weight:700;font-size:1.15rem;display:flex;align-items:center;gap:9px;margin-bottom:4px}
+  .card h2 .pill{width:26px;height:26px;border-radius:9px;display:grid;place-items:center;font-size:.9rem;color:#fff;flex:none}
+  .p-berry{background:var(--berry)} .p-grape{background:var(--grape)} .p-mint{background:var(--mint)} .p-sun{background:var(--sun)}
+  .card .hint{color:var(--muted);font-size:.8rem;margin-bottom:14px}
+
+  .item{border-bottom:1px dashed var(--line)}
+  .item.drag-over{border-top:2px solid var(--berry)}
+  .item.dragging{opacity:.4}
+  .row{display:flex;align-items:center;gap:7px;padding:7px 0}
+  .grip{flex:none;cursor:grab;color:#cbbfb2;font-size:.95rem;user-select:none;width:14px;text-align:center}
+  .grip:active{cursor:grabbing}
+  .caret{flex:none;width:18px;height:18px;border:none;background:transparent;color:var(--muted);cursor:pointer;font-size:.7rem;transition:transform .15s;display:grid;place-items:center}
+  .caret.open{transform:rotate(90deg)}
+  .caret.hidden{visibility:hidden}
+  .lblipt{flex:1;font-size:.92rem;border:none;background:transparent;font-family:'Noto Sans TC';color:var(--ink);border-bottom:1px dashed transparent;padding:2px 0;min-width:0}
+  .lblipt:focus{outline:none;border-bottom-color:var(--berry)}
+  .ipt{width:90px;text-align:right;font-family:'Baloo 2';font-weight:600;font-size:.98rem;color:var(--ink);border:1.5px solid var(--line);border-radius:10px;padding:7px 9px;background:#fffdf9;transition:border-color .15s,box-shadow .15s}
+  .ipt:focus{outline:none;border-color:var(--berry);box-shadow:0 0 0 3px rgba(232,93,117,.12)}
+  .ipt.locked{background:#f4efe7;color:var(--muted)}
+  .unit{color:var(--muted);font-size:.8rem;flex:none}
+  .del{flex:none;width:24px;height:24px;border:none;background:#f7ede9;color:var(--bad);border-radius:8px;cursor:pointer;font-size:1rem;line-height:1;display:grid;place-items:center;transition:background .15s}
+  .del:hover{background:#f3d9d2}
+  .note{display:block;color:var(--muted);font-size:.72rem;line-height:1.2}
+
+  .subwrap{padding:2px 0 8px 38px;display:none}
+  .subwrap.open{display:block}
+  .subrow{display:flex;align-items:center;gap:6px;padding:4px 0}
+  .subrow .subname{flex:1;font-size:.82rem;border:none;background:transparent;border-bottom:1px dashed var(--line);font-family:'Noto Sans TC';color:var(--ink);padding:2px 0;min-width:0}
+  .subrow .subname:focus{outline:none;border-bottom-color:var(--mint)}
+  .subrow .subval{width:74px;text-align:right;font-family:'Baloo 2';font-weight:600;font-size:.84rem;border:1.5px solid var(--line);border-radius:8px;padding:4px 6px;background:#fffdf9}
+  .subrow .subval:focus{outline:none;border-color:var(--mint);box-shadow:0 0 0 3px rgba(58,169,140,.12)}
+  .subadd{margin-top:4px;border:1px dashed var(--line);background:transparent;color:var(--muted);border-radius:8px;padding:5px 10px;cursor:pointer;font-family:'Noto Sans TC';font-size:.78rem}
+  .subadd:hover{border-color:var(--mint);color:var(--mint)}
+
+  .addbtn{margin-top:10px;width:100%;border:1.5px dashed var(--line);background:#fffdf9;color:var(--muted);border-radius:12px;padding:9px;cursor:pointer;font-family:'Noto Sans TC';font-size:.85rem;transition:all .15s}
+  .addbtn:hover{border-color:var(--berry);color:var(--berry)}
+
+  .calcline{display:flex;justify-content:space-between;padding:6px 0;font-size:.9rem}
+  .calcline.sum{border-top:2px solid var(--line);margin-top:6px;padding-top:10px;font-weight:700;font-family:'Baloo 2'}
+  .calcline .v{font-family:'Baloo 2';font-weight:600}
+  .fixedrow{display:flex;align-items:center;gap:7px;padding:7px 0;border-bottom:1px dashed var(--line)}
+  .fixedrow .lbl{flex:1;font-size:.92rem}
+
+  .laborbox{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:7px 0;border-bottom:1px dashed var(--line)}
+  .laborbox .mini{width:60px;text-align:center;font-family:'Baloo 2';font-weight:600;font-size:.95rem;border:1.5px solid var(--line);border-radius:9px;padding:6px;background:#fffdf9}
+  .laborbox .mini:focus{outline:none;border-color:var(--berry);box-shadow:0 0 0 3px rgba(232,93,117,.12)}
+  .laborbox .tx{font-size:.85rem;color:var(--ink)}
+  .laborbox .res{margin-left:auto;font-family:'Baloo 2';font-weight:600;font-size:.95rem}
+
+  .addhead,.addrow{display:grid;grid-template-columns:14px 1.3fr .7fr .7fr .65fr 24px;gap:7px;align-items:center}
+  .addhead{font-size:.74rem;color:var(--muted);padding-bottom:6px;border-bottom:1px solid var(--line);margin-bottom:4px}
+  .addrow{padding:6px 0;border-bottom:1px dashed var(--line)}
+  .addrow.drag-over{border-top:2px solid var(--sun)}
+  .addrow.dragging{opacity:.4}
+  .addrow:last-child{border-bottom:0}
+  .nameipt{font-size:.84rem;border:none;background:transparent;font-family:'Noto Sans TC';color:var(--ink);border-bottom:1px dashed transparent;padding:2px 0;width:100%;min-width:0}
+  .nameipt:focus{outline:none;border-bottom-color:var(--grape)}
+  .mini2{width:100%;text-align:right;font-family:'Baloo 2';font-weight:600;font-size:.86rem;border:1.5px solid var(--line);border-radius:8px;padding:5px 6px;background:#fffdf9}
+  .mini2:focus{outline:none;border-color:var(--grape);box-shadow:0 0 0 3px rgba(123,108,196,.12)}
+  .profit{font-family:'Baloo 2';font-weight:700;text-align:right;font-size:.86rem}
+  .profit.pos{color:var(--good)} .profit.neg{color:var(--bad)}
+
+  .result{grid-column:1/-1;background:linear-gradient(135deg,#fff 0%,#fff8f3 100%);border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow)}
+  .result h2{font-family:'Baloo 2';font-weight:800;font-size:1.3rem;margin-bottom:18px;display:flex;align-items:center;gap:9px}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  @media(max-width:680px){.stats{grid-template-columns:1fr 1fr}}
+  .stat{background:var(--cream);border-radius:16px;padding:16px 14px;text-align:center;border:1px solid var(--line)}
+  .stat .k{color:var(--muted);font-size:.78rem;margin-bottom:4px}
+  .stat .n{font-family:'Baloo 2';font-weight:800;font-size:1.5rem;line-height:1.1}
+  .stat .n small{font-size:.7rem;font-weight:600;color:var(--muted)}
+  .n.berry{color:var(--berry)} .n.grape{color:var(--grape)} .n.mint{color:var(--mint)} .n.ink{color:var(--ink)}
+
+  .target{grid-column:1/-1;margin-top:2px}
+  .verdict{border-radius:16px;padding:16px 18px;margin-top:14px;font-size:.95rem;display:flex;gap:12px;align-items:flex-start;line-height:1.5;background:rgba(47,143,111,.10);border:1px solid rgba(47,143,111,.25);color:#226b53}
+  .verdict .ico{font-size:1.4rem;flex:none}
+  .verdict b{font-family:'Baloo 2'}
+
+  .sessbox{display:flex;align-items:center;gap:10px}
+  .sessbox .big{width:120px;text-align:center;font-family:'Baloo 2';font-weight:800;font-size:1.5rem;color:var(--berry);border:1.5px solid var(--line);border-radius:12px;padding:8px;background:#fffdf9}
+  .sessbox .big:focus{outline:none;border-color:var(--berry);box-shadow:0 0 0 3px rgba(232,93,117,.12)}
+
+  footer{text-align:center;color:var(--muted);font-size:.78rem;margin-top:34px;line-height:1.7}
+  .legend{display:inline-flex;gap:6px;align-items:center;margin:0 8px}
+  .swatch{width:11px;height:11px;border-radius:3px;display:inline-block}
+</style>
+</head>
+<body>
+<a class="portal-back" href="../">← 小宇宙盒子</a>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Birthday Party · Cost & Profit</div>
+    <h1>兒童慶生派對<span class="dot">.</span>計算機</h1>
+    <p class="sub">填數字、即時看每場成本與利潤。項目可展開細項、拖曳排序、自由增刪。</p>
+    <div class="confetti">🎈 🎂 🎉 🎁 ✨</div>
+    <div class="memo-bar">
+      <span class="memo-hint">✓ 這台電腦會自動記住你的設定</span>
+      <button id="resetBtn" class="reset-btn">↺ 重設為預設值</button>
+    </div>
+  </header>
+
+  <div class="card" style="grid-column:1/-1;margin-top:26px">
+    <h2><span class="pill p-berry">📆</span>一天辦幾組？</h2>
+    <p class="hint">慶生一組獨佔一個時段。組數越多，運輸/折舊/人力這些固定成本攤得越薄。可填任意數字試算。</p>
+    <div class="sessbox">
+      <span>一天組數</span>
+      <input class="big" id="sessions" type="number" min="1" value="4">
+      <span class="unit">組</span>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2><span class="pill p-berry">🚚</span>暖場服務成本</h2>
+      <p class="hint">你的設備＋執行。一天一筆，被組數攤。項目可拖曳排序、點箭頭展開細項。</p>
+      <div id="l1rows" class="rowlist" data-list="l1"></div>
+      <div class="laborbox">
+        <span class="tx">人力</span>
+        <input class="mini" id="ppl" type="number" value="2"><span class="tx">人 ×</span>
+        <input class="mini" id="hrs" type="number" value="8"><span class="tx">小時 × 300/時</span>
+        <span class="res" id="laborRes">$4,800</span>
+      </div>
+      <button class="addbtn" data-add="l1">＋ 新增項目</button>
+      <div class="calcline sum"><span>暖場小計（一天）</span><span class="v" id="l1">$0</span></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="pill p-mint">🎀</span>場佈與場地</h2>
+      <p class="hint">可重複道具走折舊；耗材每天重買。項目可展開細項、拖曳排序。</p>
+      <div class="propbox">
+        <div class="row">
+          <span class="grip" style="visibility:hidden">⠿</span>
+          <button class="caret open" id="propCaret" title="展開細項">▶</button>
+          <span class="lblipt" style="font-weight:500">可重複道具</span>
+          <input class="ipt val locked" id="propBuy" type="number" value="2000" readonly><span class="unit">元</span>
+        </div>
+        <div class="subwrap open" id="propSubwrap">
+          <div class="sublist" id="propSublist"></div>
+          <button class="subadd" id="propSubadd">＋ 細項</button>
+        </div>
+        <div class="fixedrow" style="padding-left:38px">
+          <span class="lbl" style="font-size:.85rem">這套道具用幾場攤<span class="note">採購總額 ÷ 場數 × 當天組數 = 折舊/天</span></span>
+          <input class="ipt" id="propUse" type="number" value="10"><span class="unit">場</span>
+        </div>
+        <div class="calcline" style="padding-left:38px"><span>道具折舊／天</span><span class="v" id="propDay">$0</span></div>
+      </div>
+      <div id="l2rows" class="rowlist" data-list="l2"></div>
+      <button class="addbtn" data-add="l2">＋ 新增項目</button>
+      <div class="calcline sum"><span>場佈小計（一天）</span><span class="v" id="l2">$0</span></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="pill p-grape">🧁</span>每組客製（內含）</h2>
+      <p class="hint">每組一定有，成本算進包套價、向家庭收。可展開細項、拖曳排序。</p>
+      <div id="l3rows" class="rowlist" data-list="l3"></div>
+      <button class="addbtn" data-add="l3">＋ 新增項目</button>
+      <div class="calcline sum"><span>每組客製成本</span><span class="v" id="l3">$0</span></div>
+    </div>
+
+    <div class="card">
+      <h2><span class="pill p-sun">⭐</span>加購</h2>
+      <p class="hint">填成本和售價，即時算每組加購純利。可拖曳排序。</p>
+      <div class="addhead"><span></span><span>項目</span><span style="text-align:right">成本</span><span style="text-align:right">售價</span><span style="text-align:right">純利</span><span></span></div>
+      <div id="addonRows"></div>
+      <button class="addbtn" data-add="addon">＋ 新增加購項目</button>
+      <div class="calcline sum"><span>每組加購純利合計</span><span class="v" id="addProfit">$0</span></div>
+    </div>
+  </div>
+
+  <div class="result" style="margin-top:20px">
+    <h2><span class="pill p-berry">📊</span>一天成本攤提</h2>
+    <div class="stats">
+      <div class="stat"><div class="k">一天總成本</div><div class="n ink" id="dayTotal">$0</div></div>
+      <div class="stat"><div class="k">每組攤到成本</div><div class="n berry" id="perSess">$0</div></div>
+      <div class="stat"><div class="k">每組客製（另收）</div><div class="n grape" id="perGroup">$0</div></div>
+      <div class="stat"><div class="k">每組加購純利</div><div class="n mint" id="perAdd">$0</div></div>
+    </div>
+  </div>
+
+  <div class="result target">
+    <h2><span class="pill p-grape">🎯</span>達標反推</h2>
+    <div class="fixedrow" style="border-bottom:1px solid var(--line);padding-bottom:12px">
+      <span class="lbl" style="font-size:1rem">目標：一天想淨賺</span>
+      <input class="ipt" id="target" type="number" value="15000"><span class="unit">元</span>
+    </div>
+    <div class="stats" style="margin-top:16px;grid-template-columns:repeat(3,1fr)">
+      <div class="stat"><div class="k">一天需總營收</div><div class="n ink" id="needRev">$0</div></div>
+      <div class="stat"><div class="k">每組需收<small> 含內含、不含加購</small></div><div class="n berry" id="needPer">$0</div></div>
+      <div class="stat"><div class="k">每組攤到成本</div><div class="n grape" id="needCost">$0</div></div>
+    </div>
+    <div class="verdict"><span class="ico">💡</span><span id="verdictText"></span></div>
+  </div>
+
+  <footer>
+    <div>
+      <span class="legend"><span class="swatch" style="background:var(--berry)"></span>暖場服務</span>
+      <span class="legend"><span class="swatch" style="background:var(--mint)"></span>場佈場地</span>
+      <span class="legend"><span class="swatch" style="background:var(--grape)"></span>每組客製</span>
+      <span class="legend"><span class="swatch" style="background:var(--sun)"></span>加購純利</span>
+    </div>
+    <div style="margin-top:10px">三本帳分開：暖場是你的核心成本；每組客製向家庭收、平轉；加購是純利。<br>
+    別漏隱形成本：行銷獲客、金流手續費(2-3%)、發票稅(5%)、前置工時、試錯學費。</div>
+  </footer>
+</div>
+
+<script>
+const fmt=n=>"$"+Math.round(n).toLocaleString();
+const $=id=>document.getElementById(id);
+
+const seed={
+  l1:[{name:"運輸（來回出車）",val:3000,subs:[]},{name:"設備折舊（好印相/360）",val:5000,subs:[]},{name:"AI 系統 / 算力",val:500,subs:[]}],
+  l2:[{name:"當天耗材",val:1000,subs:[["氣球",400],["鮮花",400],["紙裝飾",200]]},{name:"場地費（含水電清潔）",val:0,subs:[]}],
+  l3:[{name:"姓名牌 / 年齡數字",val:150,subs:[]},{name:"數字氣球",val:200,subs:[]},{name:"主題色系小裝飾",val:150,subs:[]}],
+  addon:[["升級佈置（更多氣球/主題牌）",500,1500],["餐點 / 點心",0,0],["全家福 Q 版合照",100,600],["現場打印額外照片",30,150],["360 影片加購",0,0],["額外成品（冰箱貼/帆布袋/杯墊）",50,250]]
+};
+
+function makeItem(data){
+  const item=document.createElement("div");
+  item.className="item";
+  item.draggable=true;
+  const hasSub=data.subs&&data.subs.length>0;
+  item.innerHTML=`
+    <div class="row">
+      <span class="grip" title="拖曳排序">⠿</span>
+      <button class="caret ${hasSub?'open':''}" title="展開細項">▶</button>
+      <input class="lblipt" value="${data.name}">
+      <input class="ipt val ${hasSub?'locked':''}" type="number" value="${data.val}" ${hasSub?'readonly':''}><span class="unit">元</span>
+      <button class="del" title="刪除">×</button>
+    </div>
+    <div class="subwrap ${hasSub?'open':''}">
+      <div class="sublist"></div>
+      <button class="subadd">＋ 細項</button>
+    </div>`;
+  const sublist=item.querySelector(".sublist");
+  const valInput=item.querySelector(".val");
+  const caret=item.querySelector(".caret");
+  const subwrap=item.querySelector(".subwrap");
+
+  function refreshLock(){
+    const has=sublist.children.length>0;
+    if(has){valInput.readOnly=true;valInput.classList.add("locked");
+      let s=0;sublist.querySelectorAll(".subval").forEach(e=>s+=(parseFloat(e.value)||0));
+      valInput.value=s;}
+    else{valInput.readOnly=false;valInput.classList.remove("locked");}
+    caret.classList.toggle("hidden",false);
+    calc();
+  }
+  function addSub(n,v){
+    const sr=document.createElement("div");
+    sr.className="subrow";
+    sr.innerHTML=`<input class="subname" value="${n}"><input class="subval" type="number" value="${v}"><span class="unit">元</span><button class="del" title="刪除">×</button>`;
+    sr.querySelector(".del").onclick=()=>{sr.remove();refreshLock()};
+    sr.querySelector(".subval").addEventListener("input",refreshLock);
+    sublist.appendChild(sr);
+  }
+  (data.subs||[]).forEach(s=>addSub(s[0],s[1]));
+  refreshLock();
+
+  caret.onclick=()=>{subwrap.classList.toggle("open");caret.classList.toggle("open")};
+  item.querySelector(".subadd").onclick=()=>{subwrap.classList.add("open");caret.classList.add("open");addSub("細項",0);refreshLock()};
+  item.querySelector(".del").onclick=()=>{item.remove();calc()};
+  item.querySelector(".lblipt").addEventListener("input",calc);
+  valInput.addEventListener("input",calc);
+
+  attachDrag(item);
+  return item;
+}
+
+function attachDrag(item){
+  item.addEventListener("dragstart",e=>{item.classList.add("dragging");window._drag=item});
+  item.addEventListener("dragend",()=>{item.classList.remove("dragging");document.querySelectorAll(".drag-over").forEach(x=>x.classList.remove("drag-over"))});
+  item.addEventListener("dragover",e=>{e.preventDefault();
+    const d=window._drag;if(!d||d===item||d.parentElement!==item.parentElement)return;
+    item.classList.add("drag-over");});
+  item.addEventListener("dragleave",()=>item.classList.remove("drag-over"));
+  item.addEventListener("drop",e=>{e.preventDefault();item.classList.remove("drag-over");
+    const d=window._drag;if(!d||d===item||d.parentElement!==item.parentElement)return;
+    item.parentElement.insertBefore(d,item);calc();});
+}
+
+function makeAddon(name,cost,price){
+  const row=document.createElement("div");
+  row.className="addrow";row.draggable=true;
+  row.innerHTML=`<span class="grip" title="拖曳排序">⠿</span>
+    <input class="nameipt" value="${name}">
+    <input class="mini2 ac" type="number" value="${cost}">
+    <input class="mini2 ap" type="number" value="${price}">
+    <span class="profit">$0</span>
+    <button class="del" title="刪除">×</button>`;
+  row.querySelector(".del").onclick=()=>{row.remove();calc()};
+  row.querySelectorAll("input").forEach(i=>i.addEventListener("input",calc));
+  row.addEventListener("dragstart",()=>{row.classList.add("dragging");window._drag=row});
+  row.addEventListener("dragend",()=>{row.classList.remove("dragging");document.querySelectorAll(".drag-over").forEach(x=>x.classList.remove("drag-over"))});
+  row.addEventListener("dragover",e=>{e.preventDefault();const d=window._drag;if(!d||d===row||d.parentElement!==row.parentElement)return;row.classList.add("drag-over")});
+  row.addEventListener("dragleave",()=>row.classList.remove("drag-over"));
+  row.addEventListener("drop",e=>{e.preventDefault();row.classList.remove("drag-over");const d=window._drag;if(!d||d===row||d.parentElement!==row.parentElement)return;row.parentElement.insertBefore(d,row);calc()});
+  $("addonRows").appendChild(row);
+}
+
+const STORE_KEY="alicebox_birthday_calc_v1";
+
+// 讀記憶：成功回傳物件，沒有或壞掉回傳 null
+function loadSaved(){
+  try{const raw=localStorage.getItem(STORE_KEY);return raw?JSON.parse(raw):null;}
+  catch(e){return null;}
+}
+const saved=loadSaved();
+
+// 建立主清單（l1/l2/l3）：有記憶用記憶，否則用 seed
+function buildList(boxId,seedArr,savedArr){
+  const src=(savedArr&&savedArr.length!==undefined)?savedArr:seedArr;
+  src.forEach(d=>$(boxId).appendChild(makeItem(d)));
+}
+buildList("l1rows",seed.l1,saved&&saved.l1);
+buildList("l2rows",seed.l2,saved&&saved.l2);
+buildList("l3rows",seed.l3,saved&&saved.l3);
+
+// 加購區
+const addonSrc=(saved&&saved.addon)?saved.addon:seed.addon;
+addonSrc.forEach(a=>makeAddon(a[0],a[1],a[2]));
+
+const propSeed=[["背板 / 主視覺",800],["燈串 / 地毯",700],["桌椅 / 其他",500]];
+function propRefresh(){
+  const has=$("propSublist").children.length>0;
+  if(has){let s=0;$("propSublist").querySelectorAll(".subval").forEach(e=>s+=(parseFloat(e.value)||0));$("propBuy").value=s;}
+  calc();
+}
+function propAddSub(n,v){
+  const sr=document.createElement("div");
+  sr.className="subrow";
+  sr.innerHTML=`<input class="subname" value="${n}"><input class="subval" type="number" value="${v}"><span class="unit">元</span><button class="del" title="刪除">×</button>`;
+  sr.querySelector(".del").onclick=()=>{sr.remove();propRefresh()};
+  sr.querySelector(".subval").addEventListener("input",propRefresh);
+  $("propSublist").appendChild(sr);
+}
+const propSrc=(saved&&saved.prop)?saved.prop:propSeed;
+propSrc.forEach(s=>propAddSub(s[0],s[1]));
+propRefresh();
+$("propCaret").onclick=()=>{$("propSubwrap").classList.toggle("open");$("propCaret").classList.toggle("open")};
+$("propSubadd").onclick=()=>{propAddSub("細項",0);propRefresh()};
+
+document.querySelectorAll(".addbtn").forEach(b=>{
+  b.onclick=()=>{
+    const t=b.dataset.add;
+    if(t==="addon"){makeAddon("新項目",0,0);}
+    else{$(t+"rows").appendChild(makeItem({name:"新項目",val:0,subs:[]}));}
+    calc();
+  };
+});
+
+function num(el){const v=parseFloat(el.value);return isNaN(v)?0:v}
+function sumList(boxId){let s=0;$(boxId).querySelectorAll(":scope > .item > .row > .val").forEach(e=>s+=num(e));return s}
+
+function calc(){
+  const sess=num($("sessions"))||1;
+
+  const labor=num($("ppl"))*num($("hrs"))*300;
+  $("laborRes").textContent=fmt(labor);
+
+  const l1=sumList("l1rows")+labor;
+  $("l1").textContent=fmt(l1);
+
+  const propUse=num($("propUse"))||1;
+  const propDay=(num($("propBuy"))/propUse)*sess;
+  $("propDay").textContent=fmt(propDay);
+  const l2=propDay+sumList("l2rows");
+  $("l2").textContent=fmt(l2);
+
+  const l3=sumList("l3rows");
+  $("l3").textContent=fmt(l3);
+
+  const dayTotal=l1+l2;
+  const perSess=dayTotal/sess;
+  $("dayTotal").textContent=fmt(dayTotal);
+  $("perSess").textContent=fmt(perSess);
+  $("perGroup").textContent=fmt(l3);
+
+  let addProfit=0;
+  document.querySelectorAll(".addrow").forEach(r=>{
+    const c=num(r.querySelector(".ac")),p=num(r.querySelector(".ap"));
+    const pr=p-c;addProfit+=pr;
+    const el=r.querySelector(".profit");
+    el.textContent=fmt(pr);el.className="profit "+(pr>=0?"pos":"neg");
+  });
+  $("addProfit").textContent=fmt(addProfit);
+  $("perAdd").textContent=fmt(addProfit);
+
+  const target=num($("target"));
+  const needRev=dayTotal+target;
+  const needPer=needRev/sess;
+  $("needRev").textContent=fmt(needRev);
+  $("needPer").textContent=fmt(needPer);
+  $("needCost").textContent=fmt(perSess);
+
+  $("verdictText").innerHTML=`要達標一天淨賺 <b>${fmt(target)}</b>，每組包套需收 <b>${fmt(needPer)}</b>（含每組客製、不含加購）。其中每組攤到的成本是 <b>${fmt(perSess)}</b>，差額就是你的毛利。加購是額外的純利，這裡先不算進去。`;
+
+  saveState();
+}
+
+// === 還原頂部六個輸入框（有記憶才覆蓋）===
+if(saved&&saved.top){
+  ["sessions","ppl","hrs","propBuy","propUse","target"].forEach(id=>{
+    if(saved.top[id]!==undefined&&saved.top[id]!=="")$(id).value=saved.top[id];
+  });
+}
+
+// === 把一個主清單容器讀成 [{name,val,subs}] ===
+function readList(boxId){
+  const out=[];
+  $(boxId).querySelectorAll(":scope > .item").forEach(item=>{
+    const name=item.querySelector(".lblipt").value;
+    const val=parseFloat(item.querySelector(".val").value)||0;
+    const subs=[];
+    item.querySelectorAll(".sublist .subrow").forEach(sr=>{
+      subs.push([sr.querySelector(".subname").value,parseFloat(sr.querySelector(".subval").value)||0]);
+    });
+    out.push({name,val,subs});
+  });
+  return out;
+}
+
+// === 把整個畫面狀態打包成物件 ===
+function serialize(){
+  const addon=[];
+  document.querySelectorAll("#addonRows .addrow").forEach(r=>{
+    addon.push([
+      r.querySelector(".nameipt").value,
+      parseFloat(r.querySelector(".ac").value)||0,
+      parseFloat(r.querySelector(".ap").value)||0
+    ]);
+  });
+  const prop=[];
+  $("propSublist").querySelectorAll(".subrow").forEach(sr=>{
+    prop.push([sr.querySelector(".subname").value,parseFloat(sr.querySelector(".subval").value)||0]);
+  });
+  const top={};
+  ["sessions","ppl","hrs","propBuy","propUse","target"].forEach(id=>top[id]=$(id).value);
+  return {l1:readList("l1rows"),l2:readList("l2rows"),l3:readList("l3rows"),addon,prop,top};
+}
+
+var _saveTimer=null;
+function saveState(){
+  // 防抖：避免每打一個字就寫一次
+  clearTimeout(_saveTimer);
+  _saveTimer=setTimeout(()=>{
+    try{localStorage.setItem(STORE_KEY,JSON.stringify(serialize()));}catch(e){}
+  },300);
+}
+
+// === 重設按鈕：清記憶 + 重新載入回到預設 ===
+$("resetBtn").onclick=()=>{
+  if(confirm("確定要清除這台電腦記住的設定，回到一開始的預設值嗎？此動作無法復原。")){
+    try{localStorage.removeItem(STORE_KEY);}catch(e){}
+    location.reload();
+  }
+};
+
+["sessions","ppl","hrs","propBuy","propUse","target"].forEach(id=>$(id).addEventListener("input",calc));
+calc();
+</script>
+</body>
+</html>
