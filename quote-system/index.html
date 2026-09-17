@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>統一報價系統｜Creative Box System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    :root{--ink:#18243b;--muted:#687384;--cream:#fbf6ee;--line:#dfe5ee;--blue:#243a5e;--berry:#e85d75;--green:#2f8b74;--amber:#d8902e;--card:#fff;--shadow:0 14px 36px rgba(24,36,59,.09)}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 84% 10%,rgba(36,58,94,.13),transparent 28%),radial-gradient(circle at 9% 3%,rgba(232,93,117,.12),transparent 26%),var(--cream);color:var(--ink);font-family:'Noto Sans TC',sans-serif}.wrap{width:min(1120px,calc(100% - 34px));margin:auto;padding:36px 0 82px}.back{color:var(--ink);text-decoration:none;font-weight:800}.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center;margin:42px 0 28px}.tag{font:800 13px 'Baloo 2';letter-spacing:.2em;color:var(--berry)}h1{font:800 clamp(38px,6vw,66px)/1.03 'Baloo 2','Noto Sans TC';margin:8px 0 16px}.lead{color:var(--muted);line-height:1.9;font-size:17px}.hero img{width:100%;border-radius:34px;box-shadow:var(--shadow);background:#fff}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}.entry{display:block;text-align:left;color:inherit;background:var(--card);border:2.5px solid var(--blue);border-radius:24px;padding:24px;box-shadow:var(--shadow);transition:.2s;cursor:pointer;font:inherit}.entry:hover{transform:translateY(-5px)}.entry.active,.entry.primary{background:var(--blue);color:#fff}.entry .icon{font-size:34px}.entry h2{font:800 25px 'Baloo 2','Noto Sans TC';margin:13px 0 7px}.entry p{color:var(--muted);line-height:1.7;margin:0}.entry.active p,.entry.primary p{color:#dfe7f5}.note{margin-top:22px;padding:18px 20px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.72);color:var(--muted);line-height:1.8}.panel{display:none;margin-top:26px}.panel.active{display:block}.panel-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:16px}.panel-head h2{font:800 30px 'Baloo 2','Noto Sans TC';margin:0}.panel-head p{margin:6px 0 0;color:var(--muted);line-height:1.7}.btn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:12px;padding:10px 14px;font:inherit;font-weight:700;cursor:pointer}.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}.btn.ghost{background:transparent}.btn.small{padding:6px 10px;font-size:13px}.btn.danger{color:#ad4052}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}.toolbar input,.toolbar select{min-width:170px}.layout{display:grid;grid-template-columns:310px 1fr;gap:18px}.quote-layout{display:grid;grid-template-columns:1.1fr .9fr;gap:18px}.card{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:18px}.service-list{display:grid;gap:10px}.service-btn{width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:14px;padding:12px;cursor:pointer}.service-btn.active{border-color:var(--blue);box-shadow:0 0 0 3px rgba(36,58,94,.12)}.service-btn.disabled{opacity:.52}.service-title{font-weight:900}.service-meta{margin-top:4px;color:var(--muted);font-size:13px}.pill{display:inline-flex;align-items:center;border-radius:999px;padding:3px 8px;background:#eef3fa;color:var(--blue);font-weight:800;font-size:12px}.pill.off{background:#f5e7e9;color:#ad4052}.form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.full{grid-column:1/-1}label{display:grid;gap:6px;color:var(--muted);font-size:13px;font-weight:700}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;background:#fff;padding:11px 12px;font:inherit;color:var(--ink)}textarea{min-height:82px;resize:vertical}.plans{display:grid;gap:10px;margin-top:14px}.plan{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;align-items:end;padding:12px;border:1px solid var(--line);border-radius:14px;background:#fbfcfe}.plan.disabled{opacity:.55}.empty{color:var(--muted);text-align:center;padding:34px 10px}.placeholder{display:grid;grid-template-columns:1fr 1fr;gap:16px}.todo ul{margin:0;padding-left:22px;color:var(--muted);line-height:1.9}.save{color:var(--green);font-size:13px;font-weight:800}.warn{background:#fff7e8;border:1px solid #efc778;color:#8c5c12;border-radius:14px;padding:12px 14px;line-height:1.7;margin-bottom:14px}.date-row,.quote-item{display:grid;grid-template-columns:1fr 120px 120px auto;gap:8px;align-items:end;padding:10px;border:1px solid var(--line);border-radius:14px;background:#fbfcfe;margin-top:8px}.quote-item{grid-template-columns:1.2fr 1fr 80px 120px auto}.quote-summary{position:sticky;top:18px}.totals{display:grid;gap:8px;margin-top:12px}.total-row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:8px 0}.total-row.grand{font-size:22px;font-weight:900;border-bottom:0;color:var(--blue)}.quote-list{display:grid;gap:10px}.quote-card{border:1px solid var(--line);background:#fff;border-radius:16px;padding:14px}.quote-card h3{margin:0 0 6px}.suggestions{position:relative}.suggest-box{position:absolute;z-index:3;top:100%;left:0;right:0;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}.suggest-box button{width:100%;text-align:left;border:0;background:#fff;padding:10px 12px;cursor:pointer}.suggest-box button:hover{background:#f3f6fb}@media(max-width:900px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.layout,.placeholder,.quote-layout{grid-template-columns:1fr}.plan .actions{grid-column:1/-1}.quote-summary{position:static}.quote-item{grid-template-columns:1fr 1fr}.date-row{grid-template-columns:1fr 1fr}}@media(max-width:560px){.grid,.form,.plan,.quote-item,.date-row{grid-template-columns:1fr}.wrap{padding-top:24px}.panel-head{display:block}.toolbar input,.toolbar select{width:100%}}
+    .quote-document{max-width:820px;margin:auto;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:42px}.doc-top{display:flex;justify-content:space-between;gap:20px;border-bottom:2px solid var(--blue);padding-bottom:22px}.doc-title{font:800 42px 'Baloo 2','Noto Sans TC';margin:0;color:var(--blue)}.doc-meta{text-align:right;color:var(--muted);line-height:1.8}.doc-company{margin:24px 0;padding:16px;background:#f6f8fc;border-radius:14px;line-height:1.8}.doc-table{width:100%;border-collapse:collapse;margin-top:20px}.doc-table th,.doc-table td{border-bottom:1px solid var(--line);padding:12px 8px;text-align:left;vertical-align:top}.doc-table th{color:var(--muted);font-size:13px}.doc-table td.num,.doc-table th.num{text-align:right}.doc-total{margin:22px 0 0 auto;width:min(100%,330px)}.doc-note{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);white-space:pre-wrap;line-height:1.8}@media print{body{background:#fff}.wrap{width:100%;padding:0}.back,.hero,.grid,.panel:not(#quoteDocument),#quoteDocument .panel-head,#quoteDocument .toolbar{display:none!important}#quoteDocument{display:block!important;margin:0}.quote-document{box-shadow:none;border:0;border-radius:0;max-width:none;padding:18mm}}@media(max-width:560px){.quote-document{padding:22px}.doc-top{display:block}.doc-meta{text-align:left;margin-top:14px}.doc-title{font-size:34px}}
+    /* 正式報價單：依三象之力報價單的資訊階層設計，印章區保留空白。 */
+    .quote-document{max-width:794px;padding:46px 42px;border:0;border-radius:0;box-shadow:none;color:#111;font-family:'Noto Sans TC',sans-serif}.doc-header{text-align:center;margin-bottom:28px}.doc-title{font-size:36px;letter-spacing:.08em;text-decoration:underline;color:#111;line-height:1.2}.doc-subtitle{margin-top:12px;font-size:18px;font-weight:700;color:#687384}.doc-info-grid{display:grid;grid-template-columns:1fr auto;gap:26px;align-items:start;font-size:15px;line-height:1.9}.doc-info-grid strong{font-weight:900}.doc-right{text-align:left;white-space:nowrap}.doc-activity{margin:22px 0 28px;padding:15px 18px;border:1px solid #cfd4db;border-radius:12px;background:#fafbfc}.doc-section-label{font-size:17px;font-weight:900;border-bottom:1px solid #dfe3e8;padding-bottom:7px;margin-bottom:10px}.doc-activity-grid{display:grid;grid-template-columns:1.1fr 1.05fr 1fr;gap:12px;line-height:1.65}.doc-table{border-top:3px solid #111;margin-top:0}.doc-table th,.doc-table td{border-bottom:1px solid #dfe3e8;padding:12px 9px;color:#111}.doc-table th{border-bottom:2px solid #111;color:#111;font-size:15px;font-weight:900}.doc-table tbody tr{height:48px}.doc-total{margin-top:26px;width:290px}.doc-total .total-row{border-bottom:0;padding:5px 0;font-size:16px}.doc-total .total-row.grand{border-bottom:3px double #111;color:#111;font-size:22px;padding-bottom:8px}.doc-note{margin-top:42px;padding:0;border:0;color:#111;white-space:pre-line;font-size:14px;line-height:1.8}.doc-note strong{display:block;margin-bottom:4px}.doc-footer{margin-top:34px;padding-top:22px;border-top:2px solid #111;display:grid;grid-template-columns:1fr 1fr;gap:36px;font-size:14px;line-height:1.8}.doc-footer h3{font-size:17px;margin:0 0 8px}.doc-footer p{margin:0}.doc-signature{margin-top:20px;margin-left:auto;width:180px;text-align:center;color:#687384}.doc-signature-line{height:34px;border-bottom:1px solid #111;margin-bottom:3px}.doc-signature small{font-size:12px}.doc-muted{color:#687384}@media print{.quote-document{width:100%;max-width:none;padding:13mm 15mm;font-size:12px}.doc-title{font-size:29px}.doc-activity{margin:15px 0 18px}.doc-note{margin-top:27px}.doc-footer{margin-top:24px}.doc-table th,.doc-table td{padding:8px 6px}.doc-table tbody tr{height:39px}}@media(max-width:560px){.quote-document{padding:24px 18px}.doc-info-grid,.doc-activity-grid,.doc-footer{grid-template-columns:1fr}.doc-right{white-space:normal}.doc-total{width:100%}}
+    /* 報價單比例：直接依 A4 範例的小字級設定，標題之外皆維持精緻。 */
+    .quote-document{max-width:820px;padding:44px 46px}.doc-header{margin-bottom:28px}.doc-title{font-size:30px;letter-spacing:.1em}.doc-subtitle{margin-top:9px;font-size:14px}.doc-info-grid{gap:30px;font-size:12px;line-height:1.8}.doc-activity{margin:22px 0 25px;padding:14px 17px}.doc-section-label{font-size:15px;padding-bottom:7px;margin-bottom:9px}.doc-activity-grid{gap:12px;font-size:12px;line-height:1.65}.doc-table th,.doc-table td{padding:9px 7px;font-size:12px;line-height:1.5}.doc-table th{font-size:13px}.doc-table tbody tr{height:42px}.doc-total{margin-top:23px;width:270px}.doc-total .total-row{padding:4px 0;font-size:13px}.doc-total .total-row.grand{font-size:19px;padding:6px 0}.doc-note{margin-top:31px;font-size:12px;line-height:1.75}.doc-footer{margin-top:29px;padding-top:19px;gap:32px;font-size:12px;line-height:1.75}.doc-footer h3{font-size:15px;margin-bottom:7px}.doc-signature{margin-top:18px;width:170px}.doc-signature-line{height:31px}@media print{.quote-document{padding:13mm 16mm;font-size:10px}.doc-title{font-size:25px}.doc-subtitle{font-size:13px}.doc-header{margin-bottom:20px}.doc-info-grid{font-size:11px}.doc-activity{margin:15px 0 18px;padding:11px 13px}.doc-section-label{font-size:14px}.doc-activity-grid{font-size:11px}.doc-table th,.doc-table td{padding:7px 5px;font-size:10px}.doc-table th{font-size:11px}.doc-table tbody tr{height:34px}.doc-total{margin-top:18px;width:250px}.doc-total .total-row{font-size:12px}.doc-total .total-row.grand{font-size:17px}.doc-note{margin-top:24px;font-size:10px}.doc-footer{margin-top:22px;padding-top:16px;font-size:10px;line-height:1.65}.doc-footer h3{font-size:12px}.doc-activity,.doc-total,.doc-note,.doc-footer{break-inside:avoid}}
+  </style>
+</head>
+<body><main class="wrap">
+  <a class="back" href="../">← 返回 Creative Box System</a>
+  <section class="hero">
+    <div><div class="tag">SHARED TOOL</div><h1>統一報價系統</h1><p class="lead">所有盒子共用的中央報價工具。V1 先專注快速建立報價、查詢歷史價格，並保存每一張報價當下的價格快照。</p><div class="save" id="saveState">✓ 資料儲存在這台電腦</div></div>
+    <img src="../assets/quote-system.jpg" alt="報價板、計算機與工作桌水彩插畫">
+  </section>
+
+  <section class="grid" aria-label="統一報價系統入口">
+    <button class="entry primary" data-panel="newQuote"><div class="icon">📝</div><h2>建立新報價</h2><p>輸入客戶名稱，自動搜尋既有資料；自由加入不同盒子的服務項目。</p></button>
+    <button class="entry" data-panel="history"><div class="icon">📚</div><h2>歷史報價</h2><p>查詢客戶以前報過的價格，並可複製成新報價。</p></button>
+    <button class="entry" data-panel="customers"><div class="icon">👥</div><h2>客戶資料</h2><p>由報價流程自然累積客戶資訊，減少重複輸入。</p></button>
+    <button class="entry" data-panel="services"><div class="icon">⚙️</div><h2>服務與方案設定</h2><p>管理各盒子的服務、方案、標準價格與停用狀態。</p></button>
+  </section>
+
+  <section class="panel active" id="newQuote">
+    <div class="panel-head">
+      <div><h2>建立新報價</h2><p>先輸入客戶名稱；找到舊客戶會自動帶入資料，找不到也可以直接報價，儲存時自動建檔。</p></div>
+      <button class="btn" id="newQuoteDraft">清空重填</button>
+    </div>
+    <div class="quote-layout">
+      <div class="card">
+        <div class="form">
+          <label class="suggestions">客戶名稱<input id="qCustomerName" placeholder="輸入客戶名稱搜尋"><div id="customerSuggest" class="suggest-box" hidden></div></label>
+          <label>主要業務來源<select id="qMainBox"></select></label>
+          <label>報價對象<select id="qAudience"><option value="b2b">B端廠商價</option><option value="b2c">C端客戶價</option></select></label>
+          <label>統一編號<input id="qTaxId" placeholder="可空白"></label>
+          <label>聯絡人<input id="qContact" placeholder="例如：王小姐"></label>
+          <label>聯絡手機<input id="qPhone" placeholder="例如：0912-345-678"></label>
+          <label>報價日期<input id="qDate" type="date"></label>
+          <label>有效期限<input id="qValidUntil" type="date"></label>
+          <label>計價方式<select id="qTaxMode"><option value="taxed">未稅價＋5%營業稅</option><option value="included">價格已含稅</option><option value="untaxed">未稅報價</option></select></label>
+          <label>訂金金額<input id="qDepositAmount" type="number" min="0" step="1" placeholder="預設為總額的 30%"></label>
+          <label class="full">聯絡地址<input id="qAddress" placeholder="客戶地址，可空白"></label>
+          <label class="full">服務地點<input id="qLocation" placeholder="例如：台北市某活動場地"></label>
+          <label class="full">報價備註<textarea id="qNote" placeholder="本次專案特殊說明、折扣原因、合作條件等"></textarea></label>
+        </div>
+        <hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+        <h3>服務日期</h3>
+        <p class="service-meta">可加入單日、連續多日或多個指定日期；每一天可設定不同時間。</p>
+        <div id="quoteDates"></div>
+        <button class="btn small" id="addQuoteDate">＋新增日期</button>
+        <hr style="border:0;border-top:1px solid var(--line);margin:18px 0">
+        <h3>報價項目</h3>
+        <div class="form">
+          <label>盒子<select id="itemBox"></select></label>
+          <label>服務<select id="itemService"></select></label>
+          <label>方案<select id="itemPlan"></select></label>
+          <label>數量<input id="itemQty" type="number" min="1" value="1"></label>
+          <label>本次單價<input id="itemPrice" type="number" min="0"></label>
+          <label>單位<input id="itemUnit" value="1式"></label>
+          <label class="full">內容說明<input id="itemDesc" placeholder="例如：4小時歡樂方案"></label>
+        </div>
+        <div class="toolbar" style="margin-top:12px"><button class="btn primary" id="addQuoteItem">＋加入報價項目</button></div>
+        <div id="quoteItems"></div>
+      </div>
+      <div class="card quote-summary">
+        <h3>報價預覽</h3>
+        <div class="service-meta" id="quoteNoPreview"></div>
+        <div id="quotePreview"></div>
+        <div class="totals" id="quoteTotals"></div>
+        <div class="toolbar" style="margin-top:16px">
+          <button class="btn" id="previewQuote">預覽報價單</button>
+          <button class="btn primary" id="saveQuote">儲存報價</button>
+        </div>
+        <div class="note">儲存時會保留當時服務名稱、方案名稱、標準價與本次報價，之後服務漲價不會影響舊報價。</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="history">
+    <div class="panel-head"><div><h2>歷史報價</h2><p>搜尋客戶名稱、聯絡人、報價單號，快速確認以前報過什麼價格。</p></div></div>
+    <div class="toolbar">
+      <input id="historySearch" placeholder="搜尋客戶、聯絡人、報價單號、服務">
+      <select id="historyBox"><option value="">全部盒子</option></select>
+      <button class="btn" id="renderHistory">重新整理</button>
+    </div>
+    <div class="quote-list" id="historyList"></div>
+  </section>
+
+  <section class="panel" id="quoteDocument">
+    <div class="panel-head"><div><h2>正式報價單</h2><p>可列印，或直接下載為 PDF、JPG 檔案。</p></div><div class="toolbar"><button class="btn" id="backToHistory">返回歷史報價</button><button class="btn" id="downloadQuoteJpg">下載 JPG</button><button class="btn" id="downloadQuotePdf">下載 PDF</button><button class="btn primary" id="printQuote">列印</button></div></div>
+    <div id="quoteDocumentContent"></div>
+  </section>
+
+  <section class="panel" id="customers">
+    <div class="panel-head"><div><h2>客戶資料</h2><p>V1 原則：客戶資料由報價流程自然累積，不要求先新增客戶。</p></div></div>
+    <div class="quote-list" id="customerList"></div>
+  </section>
+
+  <section class="panel" id="services">
+    <div class="panel-head">
+      <div><h2>服務與方案設定</h2><p>先建立所有盒子共用的服務資料庫。每個方案可分開管理 B端廠商價、C端客戶價；歷史報價會保存當時快照。</p></div>
+      <button class="btn primary" id="addService">＋新增服務</button>
+    </div>
+    <div class="warn">建議使用「停用」而不是刪除，避免影響歷史報價。這裡的資料目前存在本機瀏覽器。</div>
+    <div class="toolbar">
+      <input id="serviceSearch" placeholder="搜尋服務、方案、盒子">
+      <select id="boxFilter"><option value="">全部盒子</option></select>
+      <select id="statusFilter"><option value="">全部狀態</option><option value="active">啟用</option><option value="inactive">停用</option></select>
+      <button class="btn" id="exportData">匯出資料</button>
+      <button class="btn danger" id="resetSeed">重設為初始資料</button>
+    </div>
+    <div class="layout">
+      <div class="card"><div class="service-list" id="serviceList"></div></div>
+      <div class="card" id="serviceEditor"></div>
+    </div>
+  </section>
+</main>
+
+<script>
+const KEY='creativeBoxUnifiedQuoteSystemV1';
+const boxes=['創意盒子','派對盒子','小宇宙盒子','呼嚕島','花盒空間','共用項目'];
+const seed={customers:[],quotes:[],services:[
+  {id:'srv-360',box:'派對盒子',category:'暖場服務',name:'360旋轉台',active:true,description:'活動現場互動體驗服務。',plans:[
+    {id:'pl-360-2h-c',name:'2小時快閃方案（平日限定）',unit:'1式',standardPrice:17000,bPrice:17000,cPrice:22800,originalPrice:26800,cTaxIncluded:true,active:true,note:'B端 2小時方案；C端 DM：2小時無限拍攝、公版邊框三選一（可加入 Logo 與文字）'},
+    {id:'pl-360-4h',name:'4小時歡樂方案',unit:'1式',standardPrice:21000,bPrice:21000,cPrice:26800,originalPrice:32800,cTaxIncluded:true,active:true,note:'B端廠商 DM：4小時方案未稅；C端 DM：4小時無限拍攝、客製邊框設計一款'}
+  ]},
+  {id:'srv-video-event',box:'創意盒子',category:'活動影像',name:'活動錄影',active:true,description:'單機活動錄影服務。',plans:[
+    {id:'pl-video-4h',name:'4小時單機方案',unit:'1式',standardPrice:20000,bPrice:20000,cPrice:0,originalPrice:0,cTaxIncluded:false,active:true,note:'單機'}
+  ]},
+  {id:'srv-photo-event',box:'創意盒子',category:'活動影像',name:'活動平面攝影',active:true,description:'單機活動平面攝影服務。',plans:[
+    {id:'pl-photo-4h',name:'4小時單機方案',unit:'1式',standardPrice:12000,bPrice:12000,cPrice:0,originalPrice:0,cTaxIncluded:false,active:true,note:'單機'}
+  ]},
+  {id:'srv-haoinxiang',box:'派對盒子',category:'暖場服務',name:'好印象',active:true,description:'AI 生成 Q 版插畫並現場熱轉印成專屬紀念品。',plans:[
+    {id:'pl-haoinxiang-3h',name:'單場3小時方案',unit:'1式',standardPrice:21800,bPrice:21800,cPrice:26800,originalPrice:32800,cTaxIncluded:true,active:true,note:'B端廠商 DM：單場3小時未稅、長期合作價；C端 DM：價格已含稅；不含進撤場時間；可選冰箱貼60個／杯墊45個／飲料提袋40個／帆布提袋30個；現場2位工作人員'}
+  ]},
+  {id:'srv-flowerbar',box:'派對盒子',category:'暖場服務',name:'鮮花吧',active:true,description:'活動現場鮮花體驗服務。',plans:[
+    {id:'pl-flowerbar-20',name:'20人份方案',unit:'1式',standardPrice:15800,bPrice:15800,cPrice:19800,originalPrice:26800,cTaxIncluded:false,active:true,note:'B端廠商 DM：未稅；C端 DM：當季精選花材、提袋＋綁帶多色可選、2位專業花藝師駐場、花材運輸與場地佈置'},
+    {id:'pl-flowerbar-plus10',name:'每增加10人',unit:'組',standardPrice:3500,bPrice:3500,cPrice:4500,originalPrice:0,cTaxIncluded:false,active:true,note:'B端廠商 DM：未稅；C端 DM：鮮花吧加購人數'}
+  ]},
+  {id:'srv-photobooth',box:'派對盒子',category:'暖場服務',name:'拍貼機',active:true,description:'即拍即印，現場輸出照片並提供數位檔案。',plans:[
+    {id:'pl-photobooth-single',name:'4小時方案',unit:'1式',standardPrice:19800,bPrice:19800,cPrice:22800,originalPrice:26800,cTaxIncluded:true,active:true,note:'B端廠商 DM：4小時全場方案未稅；C端 DM：優惠價含稅；無限次數列印、公版相框、數位檔案全數提供、留言本、拍照道具、濾鏡、2位工作人員'},
+    {id:'pl-photobooth-overtime',name:'超時費用',unit:'小時',standardPrice:3500,bPrice:3500,cPrice:5000,originalPrice:0,cTaxIncluded:true,active:true,note:'B端廠商 DM：未稅；C端 DM：NT$5,000 / hr'}
+  ]},
+  {id:'srv-voice-video',box:'派對盒子',category:'暖場服務',name:'活動語音影像留言機',active:true,description:'賓客留下聲音與影像祝福。',plans:[
+    {id:'pl-voice-standalone-no-staff',name:'單獨租借｜無專人',unit:'1式',standardPrice:5000,bPrice:5000,cPrice:6800,originalPrice:8800,cTaxIncluded:false,active:true,note:'B端廠商 DM：未稅；C端 DM：服務時長2小時，聲音＋影像同步錄製，附教學，賓客自助使用'},
+    {id:'pl-voice-standalone-staff',name:'單獨租借｜含專人',unit:'1式',standardPrice:7000,bPrice:7000,cPrice:8800,originalPrice:10800,cTaxIncluded:false,active:true,note:'B端廠商 DM：未稅；C端 DM：服務時長2小時，可加購專人服務，全程協助操作'},
+    {id:'pl-voice-addon-no-staff',name:'搭配360或好印象加購｜無專人',unit:'1式',standardPrice:3000,bPrice:3000,cPrice:3000,originalPrice:0,cTaxIncluded:false,active:true,note:'B端廠商 DM：未稅；C端 DM：搭配 360 或好印象加購'},
+    {id:'pl-voice-addon-staff',name:'搭配360或好印象加購｜含專人',unit:'1式',standardPrice:5000,bPrice:5000,cPrice:5000,originalPrice:0,cTaxIncluded:false,active:true,note:'B端廠商 DM：未稅；C端 DM：搭配 360 或好印象加購'}
+  ]},
+  {id:'srv-line-sticker',box:'派對盒子',category:'客製商品',name:'專屬客製 LINE 貼圖',active:true,description:'把自己或最愛的人做成 LINE 貼圖。',plans:[
+    {id:'pl-line-16',name:'16張方案',unit:'組',standardPrice:1280,bPrice:1280,cPrice:1280,originalPrice:0,cTaxIncluded:false,active:true,note:'B端廠商 DM 價；C端 DM：提供照片、設計專屬 IP 形象、協助上架審核，10天完成'},
+    {id:'pl-line-24',name:'24張方案',unit:'組',standardPrice:1680,bPrice:1680,cPrice:1680,originalPrice:0,cTaxIncluded:false,active:true,note:'B端廠商 DM 價；C端 DM：CP值最高推薦首選'},
+    {id:'pl-line-32',name:'32張方案',unit:'組',standardPrice:1980,bPrice:1980,cPrice:1980,originalPrice:0,cTaxIncluded:false,active:true,note:'B端廠商 DM 價；C端 DM：提供照片、設計專屬 IP 形象、協助上架審核，10天完成'}
+  ]},
+  {id:'srv-custom-figurine',box:'派對盒子',category:'客製商品',name:'專屬公仔訂製',active:true,description:'將珍貴時刻製作成專屬公仔紀念。',plans:[
+    {id:'pl-figurine-acrylic',name:'公仔立牌（壓克力）',unit:'單個',standardPrice:1280,bPrice:1280,cPrice:1280,originalPrice:0,cTaxIncluded:false,active:true,note:'B端廠商 DM 價；C端 DM：15天完成交件'},
+    {id:'pl-figurine-basic',name:'基本款 12cm 陶土公仔',unit:'單個',standardPrice:1980,bPrice:1980,cPrice:1980,originalPrice:0,cTaxIncluded:false,active:true,note:'B端廠商 DM 價；C端 DM：提供照片、AI生成Q版造型、手工製作'},
+    {id:'pl-figurine-deluxe',name:'豪華款 12cm 陶土＋壓克力底座＋背景',unit:'單個',standardPrice:2980,bPrice:2980,cPrice:2980,originalPrice:0,cTaxIncluded:false,active:true,note:'B端廠商 DM 價；C端 DM：提供照片、AI生成Q版造型、手工製作'}
+  ]},
+  {id:'srv-shared-addons',box:'共用項目',category:'附加費用',name:'附加費用',active:true,description:'所有盒子皆可加列的報價附加項目。',plans:[
+    {id:'pl-overtime',name:'超時費用',unit:'小時',standardPrice:0,bPrice:0,cPrice:0,originalPrice:0,cTaxIncluded:true,active:true,note:'請依實際需求輸入本次單價'},
+    {id:'pl-travel',name:'車馬費',unit:'趟',standardPrice:0,bPrice:0,cPrice:0,originalPrice:0,cTaxIncluded:true,active:true,note:'請依實際需求輸入本次單價'}
+  ]}
+]};
+let data=normalize(load());
+/* 將早期誤植「好印相」的本機舊資料正式遷移為「好印象」。 */
+localStorage.setItem(KEY,JSON.stringify(data));
+let selectedId=data.services[0]?.id||null;
+let quoteDraft=newDraft();
+let viewingQuote=null;
+let previewingDraft=false;
+
+function uid(prefix){return prefix+'-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,7)}
+function clone(x){return JSON.parse(JSON.stringify(x))}
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||clone(seed)}catch{return clone(seed)}}
+function normalize(raw){
+  const d=Object.assign(clone(seed),raw||{});
+  d.services=d.services||[];d.customers=d.customers||[];d.quotes=d.quotes||[];
+  seed.services.forEach(seedService=>{
+    let existing=d.services.find(s=>s.id===seedService.id);
+    if(!existing){
+      d.services.push(clone(seedService));
+      return;
+    }
+    existing.plans=existing.plans||[];
+    seedService.plans.forEach(seedPlan=>{
+      const existingPlan=existing.plans.find(p=>p.id===seedPlan.id);
+      if(!existingPlan)existing.plans.push(clone(seedPlan));
+      else ['bPrice','cPrice','originalPrice','cTaxIncluded'].forEach(key=>{
+        if(existingPlan[key]===undefined)existingPlan[key]=seedPlan[key];
+      });
+    });
+  });
+  const retiredPlanIds=new Set(['pl-360-6h','pl-360-8h']);
+  d.services.forEach(s=>{s.plans=(s.plans||[]).filter(p=>!retiredPlanIds.has(p.id));});
+  const confirmedBPrices={'pl-360-2h-c':17000,'pl-360-4h':21000,'pl-video-4h':20000,'pl-photo-4h':12000,'pl-haoinxiang-3h':21800,'pl-flowerbar-20':15800,'pl-flowerbar-plus10':3500,'pl-photobooth-single':19800,'pl-photobooth-overtime':3500,'pl-voice-standalone-no-staff':5000,'pl-voice-standalone-staff':7000,'pl-voice-addon-no-staff':3000,'pl-voice-addon-staff':5000,'pl-line-16':1280,'pl-line-24':1680,'pl-line-32':1980,'pl-figurine-acrylic':1280,'pl-figurine-basic':1980,'pl-figurine-deluxe':2980};
+  d.services.forEach(s=>(s.plans||[]).forEach(p=>{
+    if(confirmedBPrices[p.id]!==undefined){p.bPrice=confirmedBPrices[p.id];p.standardPrice=confirmedBPrices[p.id];}
+    if(p.id==='pl-voice-addon-no-staff'||p.id==='pl-voice-addon-staff'){p.name=String(p.name||'').replaceAll('好印相','好印象');p.note=String(p.note||'').replaceAll('好印相','好印象');}
+    if(p.bPrice===undefined)p.bPrice=Number(p.standardPrice||0);
+    if(p.cPrice===undefined)p.cPrice=0;
+    if(p.originalPrice===undefined)p.originalPrice=0;
+    p.cTaxIncluded=true;
+    if(p.standardPrice===undefined)p.standardPrice=Number(p.bPrice||0);
+    if(p.active===undefined)p.active=true;
+  }));
+  d.services.forEach(s=>{if(s.id==='srv-haoinxiang')s.name='好印象';});
+  d.services.forEach(s=>(s.plans||[]).forEach(p=>{if(p.id==='pl-photobooth-single')p.name='4小時方案';}));
+  const correctLegacyName=value=>{
+    if(typeof value==='string')return value.replaceAll('好印相','好印象');
+    if(Array.isArray(value))return value.map(correctLegacyName);
+    if(value&&typeof value==='object'){Object.keys(value).forEach(key=>{value[key]=correctLegacyName(value[key])});}
+    return value;
+  };
+  correctLegacyName(d);
+  d.quotes.forEach(q=>(q.items||[]).forEach(item=>{if(item.planId==='pl-photobooth-single'){item.planName='4小時方案';if(item.description==='單獨方案')item.description='4小時方案';}}));
+  d.quotes.forEach(q=>{
+    if(!q.audience)q.audience='b2b';
+    if(q.depositAmount===undefined){
+      const percent=Number(q.depositPercent??30);
+      q.depositAmount=Math.round(Number(q.total||0)*percent/100);
+    }
+    delete q.depositPercent;
+  });
+  return d;
+}
+function save(){localStorage.setItem(KEY,JSON.stringify(data));document.querySelector('#saveState').textContent='✓ 已儲存 '+new Date().toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'})}
+function money(n){return 'NT$'+Number(n||0).toLocaleString('zh-TW')}
+function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function audienceLabel(a){return a==='b2c'?'C端客戶價':'B端廠商價'}
+function taxModeLabel(m){return m==='included'?'價格已含稅':m==='untaxed'?'未稅報價':'未稅價＋5%營業稅'}
+function priceForAudience(p,a){return Number(a==='b2c'?(p.cPrice??0):(p.bPrice??p.standardPrice??0))}
+function hasPriceForAudience(p,a){return priceForAudience(p,a)>0}
+function priceLabel(p,a){const price=priceForAudience(p,a);return `${audienceLabel(a)} ${money(price)}${a==='b2c'?'（含稅）':''}`}
+function defaultTaxModeForAudience(a,plan){return a==='b2b'?'taxed':'included'}
+function currentService(){return data.services.find(s=>s.id===selectedId)||data.services[0]}
+function today(){return new Date().toISOString().slice(0,10)}
+function plusDays(dateStr,days){const d=new Date(dateStr+'T00:00:00');d.setDate(d.getDate()+days);return d.toISOString().slice(0,10)}
+function quoteNo(){const ymd=today().replaceAll('-','');const n=(data.quotes.filter(q=>q.quoteNo?.includes(ymd)).length+1).toString().padStart(3,'0');return 'CBQ-'+ymd+'-'+n}
+function newDraft(){const d=today();return {quoteNo:quoteNo(),customerId:'',customerName:'',taxId:'',contact:'',phone:'',address:'',mainBox:'派對盒子',audience:'b2b',quoteDate:d,validUntil:plusDays(d,7),taxMode:'taxed',depositAmount:null,location:'',note:'',dates:[{id:uid('date'),date:d,start:'',end:''}],items:[]}}
+
+function switchPanel(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===id));
+  document.querySelectorAll('.entry').forEach(b=>b.classList.toggle('active',b.dataset.panel===id));
+  if(id==='history')renderHistory();
+  if(id==='customers')renderCustomers();
+  if(id==='newQuote')renderQuote();
+  if(id==='quoteDocument')renderQuoteDocument();
+}
+document.querySelectorAll('.entry').forEach(b=>b.onclick=()=>switchPanel(b.dataset.panel));
+
+function renderFilters(){
+  const boxFilter=document.querySelector('#boxFilter');
+  const existing=boxFilter.value;
+  boxFilter.innerHTML='<option value="">全部盒子</option>'+boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');
+  boxFilter.value=existing;
+  const historyBox=document.querySelector('#historyBox');
+  if(historyBox){const h=historyBox.value;historyBox.innerHTML='<option value="">全部盒子</option>'+boxes.map(b=>`<option value="${esc(b)}">${esc(b)}</option>`).join('');historyBox.value=h}
+}
+
+function filteredServices(){
+  const q=document.querySelector('#serviceSearch')?.value.trim().toLowerCase()||'';
+  const box=document.querySelector('#boxFilter')?.value||'';
+  const status=document.querySelector('#statusFilter')?.value||'';
+  return data.services.filter(s=>{
+    const text=[s.box,s.category,s.name,s.description,...s.plans.flatMap(p=>[p.name,p.note,p.standardPrice,p.bPrice,p.cPrice,p.originalPrice])].join(' ').toLowerCase();
+    if(q&&!text.includes(q))return false;
+    if(box&&s.box!==box)return false;
+    if(status==='active'&&!s.active)return false;
+    if(status==='inactive'&&s.active)return false;
+    return true;
+  });
+}
+
+function renderServiceList(){
+  const list=document.querySelector('#serviceList');
+  const services=filteredServices();
+  if(!services.length){list.innerHTML='<div class="empty">沒有符合條件的服務</div>';return}
+  if(!services.some(s=>s.id===selectedId))selectedId=services[0].id;
+  list.innerHTML=services.map(s=>`<button class="service-btn ${s.id===selectedId?'active':''} ${s.active?'':'disabled'}" data-id="${s.id}">
+    <div class="service-title">${esc(s.name)} ${s.active?'<span class="pill">啟用</span>':'<span class="pill off">停用</span>'}</div>
+    <div class="service-meta">${esc(s.box)}｜${esc(s.category)}｜${s.plans.length} 個方案</div>
+  </button>`).join('');
+  list.querySelectorAll('button').forEach(btn=>btn.onclick=()=>{selectedId=btn.dataset.id;renderAll()});
+}
+
+function renderEditor(){
+  const editor=document.querySelector('#serviceEditor');
+  const s=currentService();
+  if(!s){editor.innerHTML='<div class="empty">請先新增服務</div>';return}
+  editor.innerHTML=`<div class="form">
+    <label>所屬盒子<select id="editBox">${boxes.map(b=>`<option ${b===s.box?'selected':''}>${esc(b)}</option>`).join('')}</select></label>
+    <label>服務類別<input id="editCategory" value="${esc(s.category)}" placeholder="例如：暖場服務"></label>
+    <label>服務名稱<input id="editName" value="${esc(s.name)}"></label>
+    <label>狀態<select id="editActive"><option value="true" ${s.active?'selected':''}>啟用</option><option value="false" ${!s.active?'selected':''}>停用</option></select></label>
+    <label class="full">服務說明<textarea id="editDescription">${esc(s.description)}</textarea></label>
+  </div>
+  <div class="toolbar" style="margin-top:14px">
+    <button class="btn primary" id="saveService">儲存服務</button>
+    <button class="btn" id="addPlan">＋新增方案</button>
+  </div>
+  <div class="plans">${s.plans.length?s.plans.map((p,i)=>planHtml(p,i)).join(''):'<div class="empty">這個服務還沒有方案。可以先建立服務，再慢慢補價格。</div>'}</div>`;
+  document.querySelector('#saveService').onclick=saveService;
+  document.querySelector('#addPlan').onclick=addPlan;
+  editor.querySelectorAll('.save-plan').forEach(btn=>btn.onclick=()=>savePlan(Number(btn.dataset.index)));
+  editor.querySelectorAll('.toggle-plan').forEach(btn=>btn.onclick=()=>togglePlan(Number(btn.dataset.index)));
+}
+
+function planHtml(p,i){
+  return `<div class="plan ${p.active?'':'disabled'}">
+    <label>方案名稱<input id="planName${i}" value="${esc(p.name)}"></label>
+    <label>單位<input id="planUnit${i}" value="${esc(p.unit||'1式')}"></label>
+    <label>B端廠商未稅價<input id="planBPrice${i}" type="number" min="0" value="${Number(p.bPrice||p.standardPrice||0)}"></label>
+    <label>C端客戶價（含稅）<input id="planCPrice${i}" type="number" min="0" value="${Number(p.cPrice||0)}"></label>
+    <label>原價／劃線價<input id="planOriginalPrice${i}" type="number" min="0" value="${Number(p.originalPrice||0)}"></label>
+    <label>備註<input id="planNote${i}" value="${esc(p.note||'')}"></label>
+    <div class="actions"><button class="btn small save-plan" data-index="${i}">儲存</button> <button class="btn small toggle-plan" data-index="${i}">${p.active?'停用':'啟用'}</button></div>
+    <div class="service-meta full">B端：${money(p.bPrice||p.standardPrice)}｜C端：${money(p.cPrice)}（含稅）｜${p.active?'啟用中':'已停用'}</div>
+  </div>`;
+}
+
+function saveService(){
+  const s=currentService();
+  s.box=document.querySelector('#editBox').value;
+  s.category=document.querySelector('#editCategory').value.trim()||'未分類';
+  s.name=document.querySelector('#editName').value.trim()||'未命名服務';
+  s.active=document.querySelector('#editActive').value==='true';
+  s.description=document.querySelector('#editDescription').value.trim();
+  save();renderAll();
+}
+function addService(){
+  const s={id:uid('srv'),box:'派對盒子',category:'未分類',name:'新服務',active:true,description:'',plans:[]};
+  data.services.unshift(s);selectedId=s.id;save();switchPanel('services');renderAll();
+}
+function addPlan(){
+  const s=currentService();
+  s.plans.push({id:uid('pl'),name:'新方案',unit:'1式',standardPrice:0,bPrice:0,cPrice:0,originalPrice:0,cTaxIncluded:true,active:true,note:''});
+  save();renderAll();
+}
+function savePlan(i){
+  const s=currentService(),p=s.plans[i];
+  p.name=document.querySelector('#planName'+i).value.trim()||'未命名方案';
+  p.unit=document.querySelector('#planUnit'+i).value.trim()||'1式';
+  p.bPrice=Number(document.querySelector('#planBPrice'+i).value||0);
+  p.cPrice=Number(document.querySelector('#planCPrice'+i).value||0);
+  p.originalPrice=Number(document.querySelector('#planOriginalPrice'+i).value||0);
+  p.cTaxIncluded=true;
+  p.standardPrice=p.bPrice;
+  p.note=document.querySelector('#planNote'+i).value.trim();
+  save();renderAll();
+}
+function togglePlan(i){
+  const p=currentService().plans[i];
+  p.active=!p.active;
+  save();renderAll();
+}
+function exportData(){
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='creative-box-quote-services-'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function resetSeed(){
+  if(!confirm('確定要重設為初始服務資料？目前修改會被覆蓋。'))return;
+  data=clone(seed);selectedId=data.services[0].id;quoteDraft=newDraft();save();renderAll();
+}
+function bindQuoteInputs(){
+  const map={qCustomerName:'customerName',qTaxId:'taxId',qContact:'contact',qPhone:'phone',qDate:'quoteDate',qValidUntil:'validUntil',qTaxMode:'taxMode',qDepositAmount:'depositAmount',qAddress:'address',qMainBox:'mainBox',qAudience:'audience',qLocation:'location',qNote:'note'};
+  Object.entries(map).forEach(([id,key])=>{
+    const el=document.querySelector('#'+id);
+    if(!el)return;
+    el.value=id==='qDepositAmount'?effectiveDepositAmount(quoteDraft):quoteDraft[key]||'';
+    el.oninput=()=>{
+      quoteDraft[key]=id==='qDepositAmount'?(el.value===''?null:Math.max(0,Number(el.value||0))):el.value;
+      if(id==='qAudience'){
+        const service=data.services.find(s=>s.id===document.querySelector('#itemService')?.value);
+        const plan=service?.plans.find(p=>p.id===document.querySelector('#itemPlan')?.value);
+        quoteDraft.taxMode=defaultTaxModeForAudience(el.value,plan);
+        const taxEl=document.querySelector('#qTaxMode');
+        if(taxEl)taxEl.value=quoteDraft.taxMode;
+        renderItemPlans();
+      }
+      if(id==='qCustomerName')renderCustomerSuggest();
+      renderQuote(false);
+    };
+    el.onchange=el.oninput;
+  });
+}
+function renderQuote(resetInputs=true){
+  if(resetInputs)bindQuoteInputs();
+  const saveButton=document.querySelector('#saveQuote');
+  if(saveButton)saveButton.textContent=quoteDraft.revisionOf?'儲存修訂版':'儲存報價';
+  renderQuoteSelects();
+  renderQuoteDates();
+  renderQuoteItems();
+  renderQuotePreview();
+}
+function renderQuoteSelects(){
+  const main=document.querySelector('#qMainBox'), itemBox=document.querySelector('#itemBox');
+  if(main)main.innerHTML=boxes.map(b=>`<option ${b===quoteDraft.mainBox?'selected':''}>${esc(b)}</option>`).join('');
+  if(itemBox){
+    const keep=itemBox.value||quoteDraft.mainBox;
+    itemBox.innerHTML=boxes.map(b=>`<option ${b===keep?'selected':''}>${esc(b)}</option>`).join('');
+    renderItemServices();
+  }
+}
+function activeServicesForBox(box){return data.services.filter(s=>s.active&&s.box===box)}
+function renderItemServices(){
+  const box=document.querySelector('#itemBox')?.value||quoteDraft.mainBox;
+  const services=activeServicesForBox(box);
+  const sel=document.querySelector('#itemService');
+  if(!sel)return;
+  sel.innerHTML=services.length?services.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join(''):'<option value="">此盒子尚無啟用服務</option>';
+  renderItemPlans();
+}
+function renderItemPlans(){
+  const service=data.services.find(s=>s.id===document.querySelector('#itemService')?.value);
+  const plans=(service?.plans||[]).filter(p=>p.active);
+  const sel=document.querySelector('#itemPlan');
+  if(!sel)return;
+  sel.innerHTML=plans.length?plans.map(p=>`<option value="${p.id}">${esc(p.name)}｜${priceLabel(p,quoteDraft.audience)}</option>`).join(''):'<option value="">未設定方案</option>';
+  fillPlanPrice();
+}
+function fillPlanPrice(){
+  const service=data.services.find(s=>s.id===document.querySelector('#itemService')?.value);
+  const plan=service?.plans.find(p=>p.id===document.querySelector('#itemPlan')?.value);
+  document.querySelector('#itemPrice').value=plan?priceForAudience(plan,quoteDraft.audience):0;
+  document.querySelector('#itemUnit').value=plan?.unit||'1式';
+  document.querySelector('#itemDesc').value=plan?plan.name:'';
+  if(quoteDraft.audience==='b2c'){
+    quoteDraft.taxMode=defaultTaxModeForAudience('b2c',plan);
+    const taxEl=document.querySelector('#qTaxMode');
+    if(taxEl)taxEl.value=quoteDraft.taxMode;
+  }
+}
+function renderQuoteDates(){
+  const box=document.querySelector('#quoteDates');
+  if(!box)return;
+  box.innerHTML=quoteDraft.dates.map((d,i)=>`<div class="date-row">
+    <label>日期<input type="date" value="${esc(d.date)}" data-date-index="${i}" data-date-key="date"></label>
+    <label>開始<input type="time" value="${esc(d.start)}" data-date-index="${i}" data-date-key="start"></label>
+    <label>結束<input type="time" value="${esc(d.end)}" data-date-index="${i}" data-date-key="end"></label>
+    <button class="btn small danger" data-remove-date="${i}">刪除</button>
+  </div>`).join('');
+  box.querySelectorAll('[data-date-key]').forEach(el=>el.oninput=()=>{quoteDraft.dates[Number(el.dataset.dateIndex)][el.dataset.dateKey]=el.value;renderQuotePreview()});
+  box.querySelectorAll('[data-remove-date]').forEach(btn=>btn.onclick=()=>{if(quoteDraft.dates.length>1){quoteDraft.dates.splice(Number(btn.dataset.removeDate),1);renderQuote()}});
+}
+function addQuoteDate(){quoteDraft.dates.push({id:uid('date'),date:quoteDraft.quoteDate||today(),start:'',end:''});renderQuote()}
+function addQuoteItem(){
+  const service=data.services.find(s=>s.id===document.querySelector('#itemService').value);
+  if(!service){alert('請先選擇服務');return}
+  const plan=service.plans.find(p=>p.id===document.querySelector('#itemPlan').value)||{id:'',name:'自訂方案',unit:document.querySelector('#itemUnit').value,standardPrice:Number(document.querySelector('#itemPrice').value||0),bPrice:Number(document.querySelector('#itemPrice').value||0),cPrice:Number(document.querySelector('#itemPrice').value||0),originalPrice:0,cTaxIncluded:true,note:''};
+  const qty=Number(document.querySelector('#itemQty').value||1);
+  const quotedPrice=Number(document.querySelector('#itemPrice').value||0);
+  quoteDraft.items.push({id:uid('item'),box:service.box,serviceId:service.id,serviceName:service.name,category:service.category,planId:plan.id,planName:plan.name,priceAudience:quoteDraft.audience,standardPrice:priceForAudience(plan,quoteDraft.audience),bPrice:Number(plan.bPrice||plan.standardPrice||0),cPrice:Number(plan.cPrice||0),originalPrice:Number(plan.originalPrice||0),cTaxIncluded:!!plan.cTaxIncluded,quotedPrice,qty,unit:document.querySelector('#itemUnit').value||plan.unit||'1式',description:document.querySelector('#itemDesc').value||plan.name,note:plan.note||''});
+  document.querySelector('#itemQty').value=1;
+  renderQuote();
+}
+function renderQuoteItems(){
+  const box=document.querySelector('#quoteItems');
+  if(!box)return;
+  box.innerHTML=quoteDraft.items.length?quoteDraft.items.map((it,i)=>`<div class="quote-item">
+    <div><div class="service-title">${esc(it.box)}｜${esc(it.serviceName)}</div><div class="service-meta">${esc(it.planName)}｜${audienceLabel(it.priceAudience||quoteDraft.audience)}標準 ${money(it.standardPrice)}${it.cTaxIncluded?'（含稅）':''}</div></div>
+    <label>說明<input value="${esc(it.description)}" data-item-index="${i}" data-item-key="description"></label>
+    <label>數量<input type="number" min="1" value="${it.qty}" data-item-index="${i}" data-item-key="qty"></label>
+    <label>本次單價<input type="number" min="0" value="${it.quotedPrice}" data-item-index="${i}" data-item-key="quotedPrice"></label>
+    <button class="btn small danger" data-remove-item="${i}">刪除</button>
+  </div>`).join(''):'<div class="empty">尚未加入報價項目</div>';
+  box.querySelectorAll('[data-item-key]').forEach(el=>el.oninput=()=>{const it=quoteDraft.items[Number(el.dataset.itemIndex)];it[el.dataset.itemKey]=el.dataset.itemKey==='description'?el.value:Number(el.value||0);renderQuotePreview()});
+  box.querySelectorAll('[data-remove-item]').forEach(btn=>btn.onclick=()=>{quoteDraft.items.splice(Number(btn.dataset.removeItem),1);renderQuote()});
+}
+function quoteSubtotal(){return quoteDraft.items.reduce((s,it)=>s+Number(it.qty||0)*Number(it.quotedPrice||0),0)}
+function quoteTotal(q=quoteDraft){const subtotal=q===quoteDraft?quoteSubtotal():(q.items||[]).reduce((s,it)=>s+Number(it.qty||0)*Number(it.quotedPrice||0),0);return subtotal+(q.taxMode==='taxed'?Math.round(subtotal*.05):0)}
+function effectiveDepositAmount(q=quoteDraft){return q.depositAmount===null||q.depositAmount===undefined?Math.round(quoteTotal(q)*.3):Math.max(0,Number(q.depositAmount||0))}
+function renderQuotePreview(){
+  const no=document.querySelector('#quoteNoPreview');
+  if(no)no.textContent='報價單號：'+quoteDraft.quoteNo+'｜'+audienceLabel(quoteDraft.audience)+'｜'+taxModeLabel(quoteDraft.taxMode);
+  const preview=document.querySelector('#quotePreview');
+  if(preview)preview.innerHTML=`<p><strong>${esc(quoteDraft.customerName||'未填客戶')}</strong></p><p class="service-meta">${quoteDraft.dates.map(d=>[d.date,d.start&&d.end?d.start+'–'+d.end:''].filter(Boolean).join(' ')).join('、')||'未設定服務日期'}</p>`;
+  const subtotal=quoteSubtotal(), tax=quoteDraft.taxMode==='taxed'?Math.round(subtotal*0.05):0, total=subtotal+tax;
+  const totals=document.querySelector('#quoteTotals');
+  if(totals)totals.innerHTML=quoteDraft.taxMode==='taxed'
+    ?`<div class="total-row"><span>未稅小計</span><strong>${money(subtotal)}</strong></div><div class="total-row"><span>稅額 5%</span><strong>${money(tax)}</strong></div><div class="total-row grand"><span>應稅總額</span><strong>${money(total)}</strong></div>`
+    :quoteDraft.taxMode==='included'
+      ?`<div class="total-row grand"><span>含稅總額</span><strong>${money(subtotal)}</strong></div>`
+      :`<div class="total-row grand"><span>未稅總額</span><strong>${money(subtotal)}</strong></div>`;
+  const depositInput=document.querySelector('#qDepositAmount');
+  if(depositInput&&quoteDraft.depositAmount===null)depositInput.value=effectiveDepositAmount(quoteDraft);
+}
+function renderCustomerSuggest(){
+  const box=document.querySelector('#customerSuggest');
+  const q=quoteDraft.customerName.trim();
+  if(!box||!q){box.hidden=true;return}
+  const matches=data.customers.filter(c=>c.name.includes(q)||c.contact?.includes(q)).slice(0,6);
+  if(!matches.length){box.hidden=true;return}
+  box.hidden=false;
+  box.innerHTML=matches.map(c=>`<button data-customer-id="${c.id}">${esc(c.name)}<br><span class="service-meta">${esc(c.contact||'')} ${esc(c.phone||'')}</span></button>`).join('');
+  box.querySelectorAll('button').forEach(btn=>btn.onclick=()=>selectCustomer(btn.dataset.customerId));
+}
+function selectCustomer(id){
+  const c=data.customers.find(x=>x.id===id);
+  if(!c)return;
+  Object.assign(quoteDraft,{customerId:c.id,customerName:c.name,taxId:c.taxId||'',contact:c.contact||'',phone:c.phone||'',address:c.address||''});
+  document.querySelector('#customerSuggest').hidden=true;
+  renderQuote();
+}
+function upsertCustomerFromQuote(){
+  const name=quoteDraft.customerName.trim();
+  if(!name)return null;
+  let c=data.customers.find(x=>x.id===quoteDraft.customerId)||data.customers.find(x=>x.name===name);
+  if(!c){c={id:uid('cus'),createdAt:new Date().toISOString()};data.customers.unshift(c)}
+  Object.assign(c,{name,taxId:quoteDraft.taxId,contact:quoteDraft.contact,phone:quoteDraft.phone,address:quoteDraft.address,updatedAt:new Date().toISOString()});
+  quoteDraft.customerId=c.id;
+  return c;
+}
+function saveQuote(){
+  if(!quoteDraft.customerName.trim()){alert('請先輸入客戶名稱');return}
+  if(!quoteDraft.items.length){alert('請至少加入一個報價項目');return}
+  const c=upsertCustomerFromQuote();
+  const subtotal=quoteSubtotal(), tax=quoteDraft.taxMode==='taxed'?Math.round(subtotal*0.05):0;
+  const total=subtotal+tax;
+  const quote=clone({...quoteDraft,customerId:c.id,customerName:c.name,subtotal,tax,total,depositAmount:effectiveDepositAmount({...quoteDraft,total}),companyEntity:'創意盒子影像工作室',createdAt:new Date().toISOString()});
+  data.quotes.unshift(quote);
+  save();
+  viewingQuote=quote;
+  previewingDraft=false;
+  quoteDraft=newDraft();
+  renderAll();
+  switchPanel('quoteDocument');
+}
+function previewQuoteDocument(){
+  if(!quoteDraft.items.length){alert('請至少加入一個報價項目後再預覽。');return}
+  const subtotal=quoteSubtotal(),tax=quoteDraft.taxMode==='taxed'?Math.round(subtotal*0.05):0;
+  viewingQuote=clone({...quoteDraft,subtotal,tax,total:subtotal+tax,companyEntity:'創意盒子影像工作室'});
+  previewingDraft=true;
+  switchPanel('quoteDocument');
+}
+function openQuoteDocument(q){viewingQuote=q;previewingDraft=false;switchPanel('quoteDocument')}
+function renderQuoteDocument(){
+  const box=document.querySelector('#quoteDocumentContent');
+  if(!box)return;
+  const backButton=document.querySelector('#backToHistory');
+  if(backButton)backButton.textContent=previewingDraft?'返回編輯':'返回歷史報價';
+  const q=viewingQuote;
+  if(!q){box.innerHTML='<div class="card empty">請先從歷史報價選擇一張報價單。</div>';return}
+  const dateText=(q.dates||[]).map(d=>d.date).filter(Boolean).join('、')||'未指定';
+  const timeText=(q.dates||[]).map(d=>d.start&&d.end?d.start+'–'+d.end:'').filter(Boolean).join('、')||'未指定';
+  const serviceTitle=[...new Set((q.items||[]).map(it=>it.serviceName).filter(Boolean))].join('／')||'服務報價';
+  const rows=(q.items||[]).map(it=>`<tr><td><strong>${esc(it.serviceName||'')}</strong>${it.planName?` - ${esc(it.planName)}`:''}</td><td class="num">${Number(it.qty||0)}</td><td class="num">${money(it.quotedPrice)}</td><td class="num">${money(Number(it.qty||0)*Number(it.quotedPrice||0))}</td><td>${esc(it.description||'')}</td></tr>`).join('');
+  const totalLabel=q.taxMode==='untaxed'?'未稅總額':'應稅總額';
+  const depositAmount=effectiveDepositAmount(q);
+  const balanceAmount=Math.max(0,Number(q.total||0)-depositAmount);
+  const defaultTerms=`1. 報價單有效期限至 ${q.validUntil||'—'}。\n2. 本報價內容及服務細節，依雙方最終確認為準。\n3. 確認合作後請回簽報價單，並預付 ${money(depositAmount)} 訂金。`;
+  const terms=q.note?esc(q.note):defaultTerms;
+  box.innerHTML=`<article class="quote-document"><header class="doc-header"><h1 class="doc-title">創意盒子報價單</h1><div class="doc-subtitle">${esc(serviceTitle)}</div></header><section class="doc-info-grid"><div><strong>客戶名稱：</strong>${esc(q.customerName||'—')}<br><strong>統一編號：</strong>${esc(q.taxId||'—')}<br><strong>聯絡人：</strong>${esc(q.contact||'—')}<br><strong>聯絡手機：</strong>${esc(q.phone||'—')}<br><strong>聯絡地址：</strong>${esc(q.address||'—')}</div><div class="doc-right"><strong>單號：</strong>${esc(q.quoteNo)}<br><strong>報價日期：</strong>${esc(q.quoteDate)}<br><strong>有效期限：</strong>${esc(q.validUntil||'—')}</div></section><section class="doc-activity"><div class="doc-section-label">活動資訊</div><div class="doc-activity-grid"><div><strong>服務日期：</strong>${esc(dateText)}</div><div><strong>服務時間：</strong>${esc(timeText)}</div><div><strong>服務地點：</strong>${esc(q.location||'—')}</div></div></section><table class="doc-table"><thead><tr><th>產品／項目</th><th class="num">數量</th><th class="num">單價</th><th class="num">金額</th><th>備註</th></tr></thead><tbody>${rows}</tbody></table><section class="doc-total"><div class="total-row"><span>小計</span><strong>${money(q.subtotal)}</strong></div>${q.taxMode==='taxed'?`<div class="total-row"><span>稅額（5%）</span><strong>${money(q.tax)}</strong></div>`:''}<div class="total-row grand"><span>${totalLabel}</span><strong>${money(q.total)}</strong></div></section><section class="doc-note"><strong>注意事項：</strong>${terms}</section><footer class="doc-footer"><section><h3>付款方式</h3><p>匯款銀行（代號）：新光銀行（103）林口分行</p><p>匯款帳號：0772-10-100608-0</p><p>帳戶戶名：創意盒子影像工作室</p><p>訂金：${money(depositAmount)}</p><p>尾款：${money(balanceAmount)}</p><br><h3>甲方名稱：${esc(q.customerName||'—')}</h3><p>統一編號：${esc(q.taxId||'—')}</p><p>聯絡人：${esc(q.contact||'—')}</p><p>聯絡手機：${esc(q.phone||'—')}</p></section><section><h3>乙方名稱：${esc(q.companyEntity||'創意盒子影像工作室')}</h3><p>統一編號：91397310</p><p>聯絡人：林宜穎</p><p>聯絡電話：0920436667</p><p>聯絡地址：新北市林口區忠孝三路43號3樓</p><div class="doc-signature"><div class="doc-signature-line"></div><small>公司簽章</small></div></section></footer></article>`;
+}
+function renderHistory(){
+  const list=document.querySelector('#historyList');
+  if(!list)return;
+  const q=document.querySelector('#historySearch')?.value.trim().toLowerCase()||'', box=document.querySelector('#historyBox')?.value||'';
+  const rows=data.quotes.filter(quote=>{
+    const text=[quote.quoteNo,quote.customerName,quote.contact,...quote.items.map(i=>i.box+' '+i.serviceName+' '+i.planName)].join(' ').toLowerCase();
+    if(q&&!text.includes(q))return false;
+    if(box&&!quote.items.some(i=>i.box===box))return false;
+    return true;
+  });
+  list.innerHTML=rows.length?rows.map((quote,i)=>`<div class="quote-card"><h3>${esc(quote.quoteNo)}｜${esc(quote.customerName)}</h3><div class="service-meta">${esc(quote.quoteDate)}｜${audienceLabel(quote.audience)}｜${quote.items.map(it=>esc(it.box+'｜'+it.serviceName)).join('、')}</div><div class="total-row"><span>${taxModeLabel(quote.taxMode)}</span><strong>${quote.taxMode==='taxed'?'含稅 '+money(quote.total):quote.taxMode==='included'?'含稅 '+money(quote.subtotal):'未稅 '+money(quote.subtotal)}</strong></div><button class="btn small" data-view-quote="${i}">查看報價單</button> <button class="btn small" data-edit-quote="${i}">修改並另存修訂版</button> <button class="btn small" data-copy-quote="${i}">複製成新報價</button></div>`).join(''):'<div class="card empty">尚無歷史報價</div>';
+  list.querySelectorAll('[data-view-quote]').forEach(btn=>btn.onclick=()=>openQuoteDocument(rows[Number(btn.dataset.viewQuote)]));
+  list.querySelectorAll('[data-edit-quote]').forEach(btn=>btn.onclick=()=>editQuote(rows[Number(btn.dataset.editQuote)]));
+  list.querySelectorAll('[data-copy-quote]').forEach(btn=>btn.onclick=()=>copyQuote(rows[Number(btn.dataset.copyQuote)]));
+}
+function editQuote(q){
+  quoteDraft=clone(q);
+  quoteDraft.revisionOf=q.quoteNo;
+  quoteDraft.quoteNo=quoteNo();
+  quoteDraft.quoteDate=today();
+  quoteDraft.validUntil=plusDays(today(),7);
+  delete quoteDraft.subtotal;delete quoteDraft.tax;delete quoteDraft.total;delete quoteDraft.createdAt;delete quoteDraft.updatedAt;
+  switchPanel('newQuote');
+  renderQuote();
+  const saveButton=document.querySelector('#saveQuote');
+  if(saveButton)saveButton.textContent='儲存修訂版';
+  const preview=document.querySelector('#quoteNoPreview');
+  if(preview)preview.textContent='修訂自 '+q.quoteNo+'｜新單號：'+quoteDraft.quoteNo;
+}
+function copyQuote(q){
+  quoteDraft=clone(q);
+  delete quoteDraft.revisionOf;
+  quoteDraft.quoteNo=quoteNo();
+  quoteDraft.quoteDate=today();
+  quoteDraft.validUntil=plusDays(today(),7);
+  quoteDraft.createdAt='';
+  quoteDraft.dates=[{id:uid('date'),date:'',start:'',end:''}];
+  quoteDraft.items.forEach(item=>{
+    const service=data.services.find(s=>s.id===item.serviceId);
+    const plan=service?.plans.find(p=>p.id===item.planId);
+    const audience=item.priceAudience||quoteDraft.audience||'b2b';
+    if(!plan||!hasPriceForAudience(plan,audience))return;
+    const currentPrice=priceForAudience(plan,audience);
+    const oldPrice=Number(item.standardPrice??item.quotedPrice??0);
+    if(currentPrice===oldPrice)return;
+    const useCurrent=confirm(`「${item.serviceName}｜${item.planName}」目前標準價格已由 ${money(oldPrice)} 更新為 ${money(currentPrice)}。\n\n按「確定」套用目前價格；按「取消」沿用舊價格。`);
+    if(!useCurrent)return;
+    Object.assign(item,{priceAudience:audience,standardPrice:currentPrice,bPrice:Number(plan.bPrice??plan.standardPrice??0),cPrice:Number(plan.cPrice??0),originalPrice:Number(plan.originalPrice??0),cTaxIncluded:!!plan.cTaxIncluded,quotedPrice:currentPrice,unit:plan.unit||item.unit,note:plan.note||item.note});
+  });
+  delete quoteDraft.subtotal;delete quoteDraft.tax;delete quoteDraft.total;
+  switchPanel('newQuote');
+  renderQuote();
+}
+function renderCustomers(){
+  const list=document.querySelector('#customerList');
+  if(!list)return;
+  list.innerHTML=data.customers.length?data.customers.map(c=>`<div class="quote-card"><h3>${esc(c.name)}</h3><div class="service-meta">${esc(c.contact||'')}｜${esc(c.phone||'')}｜統編 ${esc(c.taxId||'未填')}</div><div class="service-meta">${esc(c.address||'')}</div></div>`).join(''):'<div class="card empty">尚無客戶資料。儲存第一張報價時會自動建檔。</div>';
+}
+function renderAll(){renderFilters();renderServiceList();renderEditor();renderQuote();renderHistory();renderCustomers()}
+document.querySelector('#addService').onclick=addService;
+document.querySelector('#serviceSearch').oninput=renderAll;
+document.querySelector('#boxFilter').onchange=renderAll;
+document.querySelector('#statusFilter').onchange=renderAll;
+document.querySelector('#exportData').onclick=exportData;
+document.querySelector('#resetSeed').onclick=resetSeed;
+document.querySelector('#newQuoteDraft').onclick=()=>{quoteDraft=newDraft();renderQuote()};
+document.querySelector('#addQuoteDate').onclick=addQuoteDate;
+function quoteDownloadFilename(ext){
+  const q=viewingQuote||{};
+  return [q.quoteDate||today(),q.customerName||'客戶',q.quoteNo||'報價單'].map(v=>String(v).replace(/[\\/:*?"<>|]/g,'_').trim()).filter(Boolean).join('-')+'.'+ext;
+}
+function triggerFileDownload(blob,filename){
+  const url=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+async function quoteDocumentCanvas(){
+  const target=document.querySelector('#quoteDocumentContent .quote-document');
+  if(!target)throw new Error('找不到正式報價單');
+  if(!window.html2canvas)throw new Error('下載工具尚未載入，請確認網路後重新整理頁面。');
+  if(document.fonts?.ready)await document.fonts.ready;
+  return window.html2canvas(target,{scale:2,useCORS:true,backgroundColor:'#ffffff',logging:false});
+}
+async function withDownloadState(button,working,action){
+  const original=button.textContent;button.disabled=true;button.textContent=working;
+  try{await action()}catch(err){alert(err.message||'下載失敗，請再試一次。')}finally{button.disabled=false;button.textContent=original}
+}
+async function downloadQuoteJpg(){
+  const button=document.querySelector('#downloadQuoteJpg');
+  await withDownloadState(button,'正在製作 JPG…',async()=>{
+    const canvas=await quoteDocumentCanvas();
+    const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',0.96));
+    if(!blob)throw new Error('JPG 製作失敗，請再試一次。');
+    triggerFileDownload(blob,quoteDownloadFilename('jpg'));
+  });
+}
+async function downloadQuotePdf(){
+  const button=document.querySelector('#downloadQuotePdf');
+  await withDownloadState(button,'正在製作 PDF…',async()=>{
+    if(!window.jspdf?.jsPDF)throw new Error('PDF 下載工具尚未載入，請確認網路後重新整理頁面。');
+    const canvas=await quoteDocumentCanvas();
+    const {jsPDF}=window.jspdf;
+    const pdf=new jsPDF({orientation:'p',unit:'mm',format:'a4'}),margin=8,pageWidth=210-margin*2,pageHeight=297-margin*2;
+    // 報價單固定輸出為單張 A4：完整縮放置中，不讓內容被切成第二頁。
+    const scale=Math.min(pageWidth/canvas.width,pageHeight/canvas.height);
+    const imageWidth=canvas.width*scale,imageHeight=canvas.height*scale;
+    const x=margin+(pageWidth-imageWidth)/2,y=margin+(pageHeight-imageHeight)/2;
+    pdf.addImage(canvas.toDataURL('image/jpeg',0.96),'JPEG',x,y,imageWidth,imageHeight);
+    pdf.save(quoteDownloadFilename('pdf'));
+  });
+}
+document.querySelector('#addQuoteItem').onclick=addQuoteItem;
+document.querySelector('#saveQuote').onclick=saveQuote;
+document.querySelector('#previewQuote').onclick=previewQuoteDocument;
+document.querySelector('#printQuote').onclick=()=>window.print();
+document.querySelector('#downloadQuoteJpg').onclick=downloadQuoteJpg;
+document.querySelector('#downloadQuotePdf').onclick=downloadQuotePdf;
+document.querySelector('#backToHistory').onclick=()=>{
+  if(previewingDraft){viewingQuote=null;previewingDraft=false;switchPanel('newQuote');}
+  else switchPanel('history');
+};
+document.querySelector('#itemBox').onchange=renderItemServices;
+document.querySelector('#itemService').onchange=renderItemPlans;
+document.querySelector('#itemPlan').onchange=fillPlanPrice;
+document.querySelector('#historySearch').oninput=renderHistory;
+document.querySelector('#historyBox').onchange=renderHistory;
+document.querySelector('#renderHistory').onclick=renderHistory;
+renderAll();
+</script></body></html>
