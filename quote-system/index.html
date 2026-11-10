@@ -56,7 +56,7 @@
           <label>報價日期<input id="qDate" type="date"></label>
           <label>有效期限<input id="qValidUntil" type="date"></label>
           <label>計價方式<select id="qTaxMode"><option value="taxed">未稅價＋5%營業稅</option><option value="included">價格已含稅</option><option value="untaxed">未稅報價</option></select></label>
-          <label>訂金金額<input id="qDepositAmount" type="number" min="0" step="1" placeholder="預設為總額的 30%"></label>
+          <label>訂金金額（預設總額的 1/3）<input id="qDepositAmount" type="number" min="0" step="1" readonly title="雙擊修改訂金；清空可恢復自動計算"><small>雙擊金額修改；清空恢復自動計算。</small></label>
           <label class="full">聯絡地址<input id="qAddress" placeholder="客戶地址，可空白"></label>
           <label class="full">服務地點<input id="qLocation" placeholder="例如：台北市某活動場地"></label>
           <label class="full">報價備註<textarea id="qNote" placeholder="本次專案特殊說明、折扣原因、合作條件等"></textarea></label>
@@ -507,7 +507,7 @@ function renderQuoteItems(){
 }
 function quoteSubtotal(){return quoteDraft.items.reduce((s,it)=>s+Number(it.qty||0)*Number(it.quotedPrice||0),0)}
 function quoteTotal(q=quoteDraft){const subtotal=q===quoteDraft?quoteSubtotal():(q.items||[]).reduce((s,it)=>s+Number(it.qty||0)*Number(it.quotedPrice||0),0);return subtotal+(q.taxMode==='taxed'?Math.round(subtotal*.05):0)}
-function effectiveDepositAmount(q=quoteDraft){return q.depositAmount===null||q.depositAmount===undefined?Math.round(quoteTotal(q)*.3):Math.max(0,Number(q.depositAmount||0))}
+function effectiveDepositAmount(q=quoteDraft){return q.depositAmount===null||q.depositAmount===undefined?Math.round(quoteTotal(q)/3):Math.max(0,Number(q.depositAmount||0))}
 function renderQuotePreview(){
   const no=document.querySelector('#quoteNoPreview');
   if(no)no.textContent='報價單號：'+quoteDraft.quoteNo+'｜'+audienceLabel(quoteDraft.audience)+'｜'+taxModeLabel(quoteDraft.taxMode);
@@ -722,5 +722,29 @@ document.querySelector('#itemPlan').onchange=fillPlanPrice;
 document.querySelector('#historySearch').oninput=renderHistory;
 document.querySelector('#historyBox').onchange=renderHistory;
 document.querySelector('#renderHistory').onclick=renderHistory;
+const depositEditor=document.querySelector('#qDepositAmount');
+depositEditor.ondblclick=()=>{depositEditor.readOnly=false;depositEditor.focus();depositEditor.select()};
+depositEditor.onblur=()=>{depositEditor.readOnly=true};
+depositEditor.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();depositEditor.blur()}};
+document.querySelector('#quoteDocumentContent').ondblclick=e=>{
+  const paragraph=e.target.closest('.doc-footer p');
+  if(!paragraph||!paragraph.textContent.startsWith('訂金：')||paragraph.querySelector('input'))return;
+  const editor=document.createElement('input');editor.type='number';editor.min='0';editor.step='1';editor.value=effectiveDepositAmount(viewingQuote);
+  paragraph.textContent='訂金：';paragraph.appendChild(editor);editor.focus();editor.select();
+  let done=false;
+  const finish=()=>{
+    if(done)return;done=true;
+    const amount=editor.value===''?null:Number(editor.value);
+    if(amount!==null&&(!Number.isFinite(amount)||amount<0)){renderQuoteDocument();return}
+    if(previewingDraft){quoteDraft.depositAmount=amount;viewingQuote.depositAmount=amount}
+    else{
+      // Saved quotations retain their original snapshot; edit a revision instead.
+      const original=viewingQuote;editQuote(original);quoteDraft.depositAmount=amount;
+      viewingQuote=clone({...quoteDraft,subtotal:original.subtotal,tax:original.tax,total:original.total});previewingDraft=true;
+    }
+    renderQuote();renderQuoteDocument();
+  };
+  editor.onblur=finish;editor.onkeydown=event=>{if(event.key==='Enter'){event.preventDefault();finish()}if(event.key==='Escape'){done=true;renderQuoteDocument()}};
+};
 renderAll();
 </script></body></html>
