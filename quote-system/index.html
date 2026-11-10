@@ -17,6 +17,12 @@
     .quote-document{max-width:794px;padding:46px 42px;border:0;border-radius:0;box-shadow:none;color:#111;font-family:'Noto Sans TC',sans-serif}.doc-header{text-align:center;margin-bottom:28px}.doc-title{font-size:36px;letter-spacing:.08em;text-decoration:underline;color:#111;line-height:1.2}.doc-subtitle{margin-top:12px;font-size:18px;font-weight:700;color:#687384}.doc-info-grid{display:grid;grid-template-columns:1fr auto;gap:26px;align-items:start;font-size:15px;line-height:1.9}.doc-info-grid strong{font-weight:900}.doc-right{text-align:left;white-space:nowrap}.doc-activity{margin:22px 0 28px;padding:15px 18px;border:1px solid #cfd4db;border-radius:12px;background:#fafbfc}.doc-section-label{font-size:17px;font-weight:900;border-bottom:1px solid #dfe3e8;padding-bottom:7px;margin-bottom:10px}.doc-activity-grid{display:grid;grid-template-columns:1.1fr 1.05fr 1fr;gap:12px;line-height:1.65}.doc-table{border-top:3px solid #111;margin-top:0}.doc-table th,.doc-table td{border-bottom:1px solid #dfe3e8;padding:12px 9px;color:#111}.doc-table th{border-bottom:2px solid #111;color:#111;font-size:15px;font-weight:900}.doc-table tbody tr{height:48px}.doc-total{margin-top:26px;width:290px}.doc-total .total-row{border-bottom:0;padding:5px 0;font-size:16px}.doc-total .total-row.grand{border-bottom:3px double #111;color:#111;font-size:22px;padding-bottom:8px}.doc-note{margin-top:42px;padding:0;border:0;color:#111;white-space:pre-line;font-size:14px;line-height:1.8}.doc-note strong{display:block;margin-bottom:4px}.doc-footer{margin-top:34px;padding-top:22px;border-top:2px solid #111;display:grid;grid-template-columns:1fr 1fr;gap:36px;font-size:14px;line-height:1.8}.doc-footer h3{font-size:17px;margin:0 0 8px}.doc-footer p{margin:0}.doc-signature{margin-top:20px;margin-left:auto;width:180px;text-align:center;color:#687384}.doc-signature-line{height:34px;border-bottom:1px solid #111;margin-bottom:3px}.doc-signature small{font-size:12px}.doc-muted{color:#687384}@media print{.quote-document{width:100%;max-width:none;padding:13mm 15mm;font-size:12px}.doc-title{font-size:29px}.doc-activity{margin:15px 0 18px}.doc-note{margin-top:27px}.doc-footer{margin-top:24px}.doc-table th,.doc-table td{padding:8px 6px}.doc-table tbody tr{height:39px}}@media(max-width:560px){.quote-document{padding:24px 18px}.doc-info-grid,.doc-activity-grid,.doc-footer{grid-template-columns:1fr}.doc-right{white-space:normal}.doc-total{width:100%}}
     /* 報價單比例：直接依 A4 範例的小字級設定，標題之外皆維持精緻。 */
     .quote-document{max-width:820px;padding:44px 46px}.doc-header{margin-bottom:28px}.doc-title{font-size:30px;letter-spacing:.1em}.doc-subtitle{margin-top:9px;font-size:14px}.doc-info-grid{gap:30px;font-size:12px;line-height:1.8}.doc-activity{margin:22px 0 25px;padding:14px 17px}.doc-section-label{font-size:15px;padding-bottom:7px;margin-bottom:9px}.doc-activity-grid{gap:12px;font-size:12px;line-height:1.65}.doc-table th,.doc-table td{padding:9px 7px;font-size:12px;line-height:1.5}.doc-table th{font-size:13px}.doc-table tbody tr{height:42px}.doc-total{margin-top:23px;width:270px}.doc-total .total-row{padding:4px 0;font-size:13px}.doc-total .total-row.grand{font-size:19px;padding:6px 0}.doc-note{margin-top:31px;font-size:12px;line-height:1.75}.doc-footer{margin-top:29px;padding-top:19px;gap:32px;font-size:12px;line-height:1.75}.doc-footer h3{font-size:15px;margin-bottom:7px}.doc-signature{margin-top:18px;width:170px}.doc-signature-line{height:31px}@media print{.quote-document{padding:13mm 16mm;font-size:10px}.doc-title{font-size:25px}.doc-subtitle{font-size:13px}.doc-header{margin-bottom:20px}.doc-info-grid{font-size:11px}.doc-activity{margin:15px 0 18px;padding:11px 13px}.doc-section-label{font-size:14px}.doc-activity-grid{font-size:11px}.doc-table th,.doc-table td{padding:7px 5px;font-size:10px}.doc-table th{font-size:11px}.doc-table tbody tr{height:34px}.doc-total{margin-top:18px;width:250px}.doc-total .total-row{font-size:12px}.doc-total .total-row.grand{font-size:17px}.doc-note{margin-top:24px;font-size:10px}.doc-footer{margin-top:22px;padding-top:16px;font-size:10px;line-height:1.65}.doc-footer h3{font-size:12px}.doc-activity,.doc-total,.doc-note,.doc-footer{break-inside:avoid}}
+    /* A4 preview and export share the same physical page geometry. */
+    .quote-document{width:210mm;min-height:297mm;max-width:none;padding:13mm 16mm;box-sizing:border-box}
+    #quoteDocumentContent{overflow-x:auto}
+    .doc-table thead{display:table-header-group}.doc-table tr{break-inside:avoid}
+    @page{size:A4 portrait;margin:0}
+    @media print{html,body{width:210mm;margin:0;padding:0}.quote-document{width:210mm;min-height:297mm;padding:13mm 16mm}.doc-table tr{page-break-inside:avoid}#quoteDocumentContent{overflow:visible}}
   </style>
 </head>
 <body><main class="wrap">
@@ -66,6 +72,7 @@
           <label>盒子<select id="itemBox"></select></label>
           <label>服務<select id="itemService"></select></label>
           <label>方案<select id="itemPlan"></select></label>
+          <label id="customPlanLabel" hidden>自訂方案名稱<input id="customPlanName" placeholder="例如：6小時雙機活動錄影"></label>
           <label>數量<input id="itemQty" type="number" min="1" value="1"></label>
           <label>本次單價<input id="itemPrice" type="number" min="0"></label>
           <label>單位<input id="itemUnit" value="1式"></label>
@@ -137,7 +144,8 @@ const seed={customers:[],quotes:[],services:[
     {id:'pl-360-4h',name:'4小時歡樂方案',unit:'1式',standardPrice:21000,bPrice:21000,cPrice:26800,originalPrice:32800,cTaxIncluded:true,active:true,note:'B端廠商 DM：4小時方案未稅；C端 DM：4小時無限拍攝、客製邊框設計一款'}
   ]},
   {id:'srv-video-event',box:'創意盒子',category:'活動影像',name:'活動錄影',active:true,description:'單機活動錄影服務。',plans:[
-    {id:'pl-video-4h',name:'4小時單機方案',unit:'1式',standardPrice:20000,bPrice:20000,cPrice:0,originalPrice:0,cTaxIncluded:false,active:true,note:'單機'}
+    {id:'pl-video-4h',name:'4小時單機',unit:'1式',standardPrice:18000,bPrice:18000,cPrice:0,originalPrice:0,cTaxIncluded:false,active:true,note:'單機'},
+    {id:'pl-video-4h-dual',name:'4小時雙機',unit:'1式',standardPrice:25000,bPrice:25000,cPrice:0,originalPrice:0,cTaxIncluded:false,active:true,note:'雙機'}
   ]},
   {id:'srv-photo-event',box:'創意盒子',category:'活動影像',name:'活動平面攝影',active:true,description:'單機活動平面攝影服務。',plans:[
     {id:'pl-photo-4h',name:'4小時單機方案',unit:'1式',standardPrice:12000,bPrice:12000,cPrice:0,originalPrice:0,cTaxIncluded:false,active:true,note:'單機'}
@@ -203,11 +211,18 @@ function normalize(raw){
       });
     });
   });
+  if(!d.videoPricing20261110){
+    const video=d.services.find(s=>s.id==='srv-video-event');
+    const single=video?.plans.find(p=>p.id==='pl-video-4h');
+    if(single)Object.assign(single,{name:'4小時單機',bPrice:18000,standardPrice:18000});
+    if(video)video.description='活動錄影服務，可選單機、雙機或自訂方案。';
+    d.videoPricing20261110=true;
+  }
   const retiredPlanIds=new Set(['pl-360-6h','pl-360-8h']);
   d.services.forEach(s=>{s.plans=(s.plans||[]).filter(p=>!retiredPlanIds.has(p.id));});
   const confirmedBPrices={'pl-360-2h-c':17000,'pl-360-4h':21000,'pl-video-4h':20000,'pl-photo-4h':12000,'pl-haoinxiang-3h':21800,'pl-flowerbar-20':15800,'pl-flowerbar-plus10':3500,'pl-photobooth-single':19800,'pl-photobooth-overtime':3500,'pl-voice-standalone-no-staff':5000,'pl-voice-standalone-staff':7000,'pl-voice-addon-no-staff':3000,'pl-voice-addon-staff':5000,'pl-line-16':1280,'pl-line-24':1680,'pl-line-32':1980,'pl-figurine-acrylic':1280,'pl-figurine-basic':1980,'pl-figurine-deluxe':2980};
   d.services.forEach(s=>(s.plans||[]).forEach(p=>{
-    if(confirmedBPrices[p.id]!==undefined){p.bPrice=confirmedBPrices[p.id];p.standardPrice=confirmedBPrices[p.id];}
+    if(p.id!=='pl-video-4h'&&confirmedBPrices[p.id]!==undefined){p.bPrice=confirmedBPrices[p.id];p.standardPrice=confirmedBPrices[p.id];}
     if(p.id==='pl-voice-addon-no-staff'||p.id==='pl-voice-addon-staff'){p.name=String(p.name||'').replaceAll('好印相','好印象');p.note=String(p.note||'').replaceAll('好印相','好印象');}
     if(p.bPrice===undefined)p.bPrice=Number(p.standardPrice||0);
     if(p.cPrice===undefined)p.cPrice=0;
@@ -433,9 +448,11 @@ function renderItemPlans(){
   const sel=document.querySelector('#itemPlan');
   if(!sel)return;
   sel.innerHTML=plans.length?plans.map(p=>`<option value="${p.id}">${esc(p.name)}｜${priceLabel(p,quoteDraft.audience)}</option>`).join(''):'<option value="">未設定方案</option>';
+  sel.insertAdjacentHTML('beforeend','<option value="custom">＋自訂方案</option>');
   fillPlanPrice();
 }
 function fillPlanPrice(){
+  document.querySelector('#customPlanLabel').hidden=document.querySelector('#itemPlan').value!=='custom';
   const service=data.services.find(s=>s.id===document.querySelector('#itemService')?.value);
   const plan=service?.plans.find(p=>p.id===document.querySelector('#itemPlan')?.value);
   document.querySelector('#itemPrice').value=plan?priceForAudience(plan,quoteDraft.audience):0;
@@ -465,6 +482,11 @@ function addQuoteItem(){
   if(!service){alert('請先選擇服務');return}
   const plan=service.plans.find(p=>p.id===document.querySelector('#itemPlan').value)||{id:'',name:'自訂方案',unit:document.querySelector('#itemUnit').value,standardPrice:Number(document.querySelector('#itemPrice').value||0),bPrice:Number(document.querySelector('#itemPrice').value||0),cPrice:Number(document.querySelector('#itemPrice').value||0),originalPrice:0,cTaxIncluded:true,note:''};
   const qty=Number(document.querySelector('#itemQty').value||1);
+  if(document.querySelector('#itemPlan').value==='custom'){
+    const name=document.querySelector('#customPlanName').value.trim();
+    if(!name){alert('請填寫自訂方案名稱');return}
+    plan.name=name;
+  }
   const quotedPrice=Number(document.querySelector('#itemPrice').value||0);
   quoteDraft.items.push({id:uid('item'),box:service.box,serviceId:service.id,serviceName:service.name,category:service.category,planId:plan.id,planName:plan.name,priceAudience:quoteDraft.audience,standardPrice:priceForAudience(plan,quoteDraft.audience),bPrice:Number(plan.bPrice||plan.standardPrice||0),cPrice:Number(plan.cPrice||0),originalPrice:Number(plan.originalPrice||0),cTaxIncluded:!!plan.cTaxIncluded,quotedPrice,qty,unit:document.querySelector('#itemUnit').value||plan.unit||'1式',description:document.querySelector('#itemDesc').value||plan.name,note:plan.note||''});
   document.querySelector('#itemQty').value=1;
@@ -649,7 +671,12 @@ async function quoteDocumentCanvas(){
   if(!target)throw new Error('找不到正式報價單');
   if(!window.html2canvas)throw new Error('下載工具尚未載入，請確認網路後重新整理頁面。');
   if(document.fonts?.ready)await document.fonts.ready;
-  return window.html2canvas(target,{scale:2,useCORS:true,backgroundColor:'#ffffff',logging:false});
+  const copy=target.cloneNode(true);
+  const host=document.createElement('div');
+  host.style.cssText='position:absolute;left:-10000px;top:0;width:210mm';
+  copy.style.cssText='width:210mm;min-height:297mm;max-width:none;padding:13mm 16mm';
+  host.appendChild(copy);document.body.appendChild(host);
+  try{return await window.html2canvas(copy,{scale:2,windowWidth:1200,useCORS:true,backgroundColor:'#ffffff',logging:false})}finally{host.remove()}
 }
 async function withDownloadState(button,working,action){
   const original=button.textContent;button.disabled=true;button.textContent=working;
